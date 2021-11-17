@@ -7,7 +7,7 @@ jobs:
   cache:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -23,7 +23,7 @@ jobs:
   lint_black:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -34,7 +34,7 @@ jobs:
   lint_flake8:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -45,7 +45,7 @@ jobs:
   lint_isort:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -56,7 +56,7 @@ jobs:
   lint_package_types:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -75,7 +75,7 @@ jobs:
   lint_shell:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -86,7 +86,7 @@ jobs:
   lint_test_types:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -105,7 +105,7 @@ jobs:
   lint_yaml:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -116,7 +116,7 @@ jobs:
   test:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
@@ -129,7 +129,7 @@ jobs:
   build:
     docker:
       - image: cimg/python:3.10.0
-    resource_class: large
+    resource_class: xlarge
     steps:
       - checkout
       - restore_cache:
