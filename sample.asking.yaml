@@ -1,0 +1,49 @@
+start:
+  - title: Asking Demo
+  - text: Welcome to the Asking demo.
+  - ask:
+      question: Are you ready?
+      if:
+        - response:
+            - exact: n
+            - null
+          then:
+            - stop: false
+        - response:
+            - exact: y
+          then:
+            - text: Great! Let's get started!
+            - goto: name
+
+name:
+  - ask:
+      key: user.name
+      question: What's your name?
+      if:
+        - response:
+            - like: .+
+          then:
+            - goto: smell
+
+smell:
+  key: user.smell
+  print:
+    - question: What's your favourite smell?
+  if:
+    - response: .+
+      goto: finalise
+
+final:
+  print:
+    - text: "Here's your configuration:"
+    - responses: json
+    - text: 'Okay to save?'
+  if:
+    - response:
+        - exact: n
+      then:
+        - stop: false
+    - response:
+        - exact: y
+      then:
+        - stop: true

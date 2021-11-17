@@ -33,8 +33,16 @@ setup(
     author="Cariad Eccleston",
     author_email="cariad@cariad.earth",
     classifiers=classifiers,
-    description="Asks questions and gets answers on the command line",
+    description="Ask questions and get answers",
+    entry_points={
+        "console_scripts": [
+            "startifact=startifact.__main__:entry",
+        ],
+    },
     include_package_data=True,
+    install_requires=[
+        "pyyaml~=6.0",
+    ],
     license="MIT",
     long_description=long_description,
     long_description_content_type="text/markdown",
