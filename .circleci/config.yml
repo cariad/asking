@@ -29,6 +29,8 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/lint-black.sh
 
   lint_flake8:
@@ -40,6 +42,8 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/lint-flake8.sh
 
   lint_isort:
@@ -51,6 +55,8 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/lint-isort.sh
 
   lint_package_types:
@@ -62,10 +68,12 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
       - restore_cache:
           keys:
             - mypy-package-{{ .Branch }}
             - mypy-package-main
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/lint-package-types.sh
       - save_cache:
           key: mypy-package-{{ .Branch }}
@@ -81,6 +89,8 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/lint-shell.sh
 
   lint_test_types:
@@ -92,10 +102,12 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
       - restore_cache:
           keys:
             - mypy-test-{{ .Branch }}
             - mypy-test-main
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/lint-test-types.sh
       - save_cache:
           key: mypy-test-{{ .Branch }}
@@ -111,6 +123,8 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/lint-yaml.sh
 
   test:
@@ -122,6 +136,8 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/test.sh
       - codecov/upload:
           file: coverage.xml
@@ -135,6 +151,8 @@ jobs:
       - restore_cache:
           keys:
             - pipenv-{{ checksum "Pipfile.lock" }}
+            - pipenv-
+      - run: pipenv sync --dev
       - run: pipenv run ./scripts/build.sh
       - run: pip install dist/*
       - run: if [[ -z "${CIRCLE_TAG}" ]]; then circleci-agent step halt; fi
@@ -149,43 +167,27 @@ workflows:
           filters:
             branches:
               only: /.*/
-            tags:
-              only: /.*/
       - lint_black:
           context:
             - python
-          requires:
-            - cache
       - lint_flake8:
           context:
             - python
-          requires:
-            - cache
       - lint_isort:
           context:
             - python
-          requires:
-            - cache
       - lint_package_types:
           context:
             - python
-          requires:
-            - cache
       - lint_shell:
           context:
             - python
-          requires:
-            - cache
       - lint_test_types:
           context:
             - python
-          requires:
-            - cache
       - lint_yaml:
           context:
             - python
-          requires:
-            - cache
       - test:
           context:
             - python
@@ -194,8 +196,6 @@ workflows:
               only: /.*/
             tags:
               only: /.*/
-          requires:
-            - cache
       - build:
           context:
             - python
