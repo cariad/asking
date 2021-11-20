@@ -3,47 +3,49 @@ start:
   - text: Welcome to the Asking demo.
   - ask:
       question: Are you ready?
-      if:
-        - response:
-            - exact: n
-            - null
+      key: ready
+      recall: false
+      branches:
+        - response: [n, ""]
           then:
             - stop: false
-        - response:
-            - exact: y
+        - response: [y]
           then:
             - text: Great! Let's get started!
             - goto: name
 
 name:
   - ask:
-      key: user.name
       question: What's your name?
-      if:
-        - response:
-            - like: .+
+      key: user.name
+      recall: true
+      branches:
+        - response: "^.+$"
           then:
             - goto: smell
 
-smell:
-  key: user.smell
-  print:
-    - question: What's your favourite smell?
-  if:
-    - response: .+
-      goto: finalise
 
-final:
-  print:
-    - text: "Here's your configuration:"
-    - responses: json
-    - text: 'Okay to save?'
-  if:
-    - response:
-        - exact: n
-      then:
-        - stop: false
-    - response:
-        - exact: y
-      then:
-        - stop: true
+
+smell:
+  - ask:
+      question: What's your favourite smell?
+      key: user.smell
+      recall: true
+      branches:
+        - response: "^.+$"
+          then:
+            - goto: finalise
+
+finalise:
+  - text: "Here's your configuration:"
+  - responses: json
+  - question: Okay to save?
+  - ask:
+      question: Okay to save?
+      branches:
+        - response: n
+          then:
+            - stop: false
+        - response: y
+          then:
+            - stop: true

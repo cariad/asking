@@ -1,22 +1,17 @@
-from typing import Iterable, List, Optional
-from asking.models.action import Action, ActionDict
-from asking.models.performance import Performance
-from asking.models.runtime import Runtime
-
-StageType = List[ActionDict]
+from asking.exceptions import Stop
+from asking.state_protocol import StateProtocol
+from asking.stop_reasons import InternalStopReason
+from asking.types import StageType
 
 
 class Stage:
-    def __init__(self, stage: StageType, run: Runtime) -> None:
-        self._run = run
+    def __init__(self, stage: StageType, state: StateProtocol) -> None:
         self._stage = stage
+        self._state = state
 
-    def actions(self) -> Iterable[Action]:
-        for action in self._stage:
-            yield Action(action=action, run=self._run)
-
-    def next(self) -> Optional[Performance]:
-        for action in self.actions():
-            if performance := action.perform():
-                return performance
-        return None
+    def perform(self) -> str:
+        if next := self._state.perform_actions(self._stage):
+            self._state.logger.debug("next stage: %s", next)
+            return next
+        self._state.logger.debug("No more stages: raising NO_NEXT_STAGE")
+        raise Stop(InternalStopReason.NO_NEXT_STAGE)

@@ -1,5 +1,5 @@
-from asking.cli import AskingCLI
 from asking import __version__
+from asking.cli import AskingCLI
 
 
 def entry() -> None:

@@ -1,8 +1,9 @@
 from dataclasses import dataclass
+from pathlib import Path
 
 from cline import CommandLineArguments, Task
+
 from asking.models import Script
-from pathlib import Path
 
 
 @dataclass
