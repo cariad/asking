@@ -1,59 +1,32 @@
-import re
-from logging import getLogger
-from pathlib import Path
-from sys import stdout
-from typing import IO, Any, Dict, cast
-
-from ruamel.yaml.main import YAML
-
 from asking.exceptions import StageNotFoundError, Stop
+from asking.loaders import Loader
 from asking.models.stage import Stage
-from asking.state import State
-from asking.types import StageType, StopReason
-
-ScriptType = Dict[str, StageType]
+from asking.protocols import StateProtocol
+from asking.types import StopReason
 
 
 class Script:
-    def __init__(self, script: ScriptType, out: IO[str]) -> None:
-        self._state = State(out=out)
-        self._script = script
+    def __init__(
+        self,
+        loader: Loader,
+        state: StateProtocol,
+    ) -> None:
+        self._loader = loader
+        self._state = state
 
-    @staticmethod
-    def deserialize_yaml_file(path: Path) -> ScriptType:
-        yaml = YAML(typ="safe")
-        with open(path, "r") as f:
-            loaded: Any = yaml.load(f)  # pyright: reportUnknownMemberType=false
-        return cast(ScriptType, loaded)
-
-    @staticmethod
-    def is_yaml_filename(filename: str) -> bool:
-        log = getLogger("asking")
-        log.debug("checking if %s is a YAML file", filename)
-        yes = not not re.match(r"^.*\.y(a?)ml$", filename, re.IGNORECASE)
-        log.debug("%s is %sa YAML file", filename, "" if yes else "not ")
-        return yes
-
-    @classmethod
-    def load_file(cls, path: Path) -> "Script":
-        if Script.is_yaml_filename(path.name):
-            script = Script.deserialize_yaml_file(path)
-        else:
-            raise Exception("unknown file type")
-        return Script(script=script, out=stdout)
-
-    def get(self, key: str) -> Stage:
-        stage = self._script.get(key, None)
+    def _get_stage(self, key: str) -> Stage:
+        stage = self._loader.script_dict.get(key, None)
         if not stage:
             raise StageNotFoundError(key)
         return Stage(stage=stage, state=self._state)
 
     def start(self) -> StopReason:
-        stage = self.get("start")
+        stage = self._get_stage("start")
 
         try:
             while True:
                 next = stage.perform()
-                stage = self.get(next)
+                stage = self._get_stage(next)
         except Stop as ex:
+            self._state.out.write("\n")
             return ex.reason

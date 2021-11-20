@@ -41,7 +41,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
-        "ruamel.yaml~=0.17",
+        "pyyaml~=6.0",
     ],
     license="MIT",
     long_description=long_description,
@@ -49,9 +49,19 @@ setup(
     name="asking",
     packages=[
         "asking",
+        "asking.actions",
+        "asking.loaders",
+        "asking.models",
+        "asking.prompts",
+        "asking.protocols",
     ],
     package_data={
         "asking": ["py.typed"],
+        "asking.actions": ["py.typed"],
+        "asking.loaders": ["py.typed"],
+        "asking.models": ["py.typed"],
+        "asking.prompts": ["py.typed"],
+        "asking.protocols": ["py.typed"],
     },
     python_requires=">=3.8",
     url="https://github.com/cariad/asking",

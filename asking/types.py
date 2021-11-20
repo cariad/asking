@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Any, Dict, List, TypedDict, Union
 
 StopReason = Any
@@ -9,19 +10,20 @@ StageKey = str
 BranchingKey = Union[List[str], str]
 
 
-# class ActionDict(TypedDict, total=False):
-#     question: str
-#     text: str
-#     title: str
-
-
 class PathDict(TypedDict):
     response: List[str]
     then: List[Dict[str, Any]]
 
 
-# class BranchingActionDict(ActionDict, total=False):
-#     branch: List[PathDict]
-
-
+# References = Dict[Any, Any]
+Responses = Dict[str, Any]
 StageType = List[Dict[str, Any]]
+
+
+@dataclass
+class Asked:
+    responses: Responses
+    stop_reason: Any
+
+
+ScriptDict = Dict[str, StageType]

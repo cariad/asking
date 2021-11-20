@@ -1,4 +1,14 @@
-import importlib.resources as pkg_resources
+from importlib.resources import open_text
 
-with pkg_resources.open_text(__package__, "VERSION") as t:
+with open_text(__package__, "VERSION") as t:
     __version__ = t.readline().strip()
+
+from asking.models import Script
+from asking.state import State
+from asking.types import Responses
+
+__all__ = [
+    "Responses",
+    "Script",
+    "State",
+]

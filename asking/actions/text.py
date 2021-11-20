@@ -3,12 +3,9 @@ from asking.actions.action import Action, ActionResult
 
 class TextAction(Action):
     def perform(self) -> ActionResult:
-        try:
-            text = self._action["text"]
-        except KeyError:
-            return ActionResult(next=None, recognised=False)
+        text = self.get_string("text")
 
         self.state.out.write("\n")
         self.state.out.write(text)
         self.state.out.write("\n")
-        return ActionResult(next=None, recognised=True)
+        return ActionResult(next=None)

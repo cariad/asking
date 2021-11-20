@@ -1,14 +1,15 @@
 import re
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Dict, Iterable, List, Optional, Union
 
-from ansiscape import bright_green
+from ansiscape import heavy, bright_green
 
 from asking.actions.action import Action, ActionResult
-from asking.state_protocol import StateProtocol
-from asking.exceptions import AskingError
+from asking.exceptions import AskingError, NothingToDoError
+from asking.prompts import get_prompt
+from asking.protocols import BranchProtocol, AskActionProtocol, StateProtocol
 
 
-class Branch:
+class Branch(BranchProtocol):
     def __init__(self, branch: Dict[str, Any], state: StateProtocol) -> None:
         self._branch = branch
         self._state = state
@@ -23,6 +24,9 @@ class Branch:
             return ["" if r is None else str(r) for r in response]
 
         return ["" if response is None else str(response)]
+
+    def is_regex(self, value: str) -> bool:
+        return value.startswith("^") and value.endswith("$")
 
     def matches_response(self, value: str) -> bool:
         for response in self.response:
@@ -49,31 +53,63 @@ class Branch:
         return self._state.perform_actions(actions)
 
 
-class AskAction(Action):
-    def perform(self) -> ActionResult:
-        try:
-            ask = self._action["ask"]
-        except KeyError:
-            return ActionResult(next=None, recognised=False)
+AnyDict = Dict[str, Any]
 
-        question = ask.get("question", None)
-        if question:
-            self.state.out.write("\n")
-            self.state.out.write(bright_green(question).encoded)
-            self.state.out.write("\n")
 
-        branches: Union[None, Any, List[Dict[str, Any]]] = ask.get("branches", None)
+class AskAction(Action, AskActionProtocol):
+    @property
+    def ask(self) -> AnyDict:
+        ask: Union[None, Any, AnyDict] = self._action.get("ask", None)
+        if ask is None:
+            raise NothingToDoError()
+        if isinstance(ask, dict):
+            return ask
+        raise Exception("invalid type")
+
+    @property
+    def key(self) -> Optional[str]:
+        key: Optional[Any] = self.ask.get("key", None)
+        return None if key is None else str(key)
+
+    @property
+    def recall(self) -> bool:
+        return bool(self.ask.get("recall", False))
+
+    @property
+    def branches(self) -> Iterable[Branch]:
+        branches: Union[None, Any, List[AnyDict]] = self.ask.get("branches", None)
         if not isinstance(branches, list):
             raise AskingError("no branches")
+
+        for branch_dict in branches:
+            yield Branch(branch=branch_dict, state=self.state)
+
+    def perform(self) -> ActionResult:
+        question = self.get_string("question", source=self.ask, wrap=False)
+
+        prompt = get_prompt(self)
+
+        if prompt:
+            prompt = f" {prompt}"
+
+        text = bright_green(heavy(question), prompt).encoded
+
+        self.state.out.write("\n")
+        self.state.out.write(text)
+        self.state.out.write("\n")
 
         next: Optional[str] = None
 
         while next is None:
-            response = input("\n> ")
+            response = input(bright_green(": ").encoded)
 
-            for branch_dict in branches:
-                branch = Branch(branch=branch_dict, state=self.state)
+            if self.recall and self.key and not response:
+                response = self.state.get_response(self.key) or ""
+
+            for branch in self.branches:
                 if branch.matches_response(response):
+                    if self.key:
+                        self.state.save_response(key=self.key, value=response)
                     next = branch.perform_actions()
 
-        return ActionResult(next=next, recognised=True)
+        return ActionResult(next=next)

@@ -4,6 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [scripts]
+build = "./scripts/build.sh"
 lint = "./scripts/lint.sh"
 test = "./scripts/test.sh"
 
@@ -22,7 +23,8 @@ yamllint = "*"
 
 [packages]
 cline = {editable = true, path = "./../cline"}
-"ruamel.yaml" = "~=0.17"
+pyyaml = "~=6.0"
+ansiwrap = "~=0.8"
 
 [requires]
 python_version = "3.10"

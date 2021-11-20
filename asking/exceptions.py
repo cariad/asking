@@ -17,6 +17,11 @@ class AskingError(Exception):
     pass
 
 
+class NothingToDoError(AskingError):
+    def __init__(self) -> None:
+        super().__init__("nothing to do")
+
+
 class StageError(AskingError):
     def __init__(self, key: str, msg: str) -> None:
         super().__init__(f'"{key}" stage: {msg}')

@@ -1,5 +1,5 @@
 from asking.exceptions import Stop
-from asking.state_protocol import StateProtocol
+from asking.protocols import StateProtocol
 from asking.stop_reasons import InternalStopReason
 from asking.types import StageType
 

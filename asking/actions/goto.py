@@ -1,5 +1,7 @@
 from typing import Any, Optional
+
 from asking.actions.action import Action, ActionResult
+from asking.exceptions import NothingToDoError
 
 
 class GotoAction(Action):
@@ -7,10 +9,10 @@ class GotoAction(Action):
         raw: Optional[Any] = self._action.get("goto", None)
 
         if raw is None:
-            return ActionResult(next=None, recognised=False)
+            raise NothingToDoError()
 
         goto = None if raw is None else str(raw)
         if goto is not None:
             self.state.logger.debug("goto: %s", goto)
 
-        return ActionResult(next=goto, recognised=True)
+        return ActionResult(next=goto)
