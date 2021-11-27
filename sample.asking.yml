@@ -1,0 +1,49 @@
+start:
+  - title: Asking Demo
+  - text: Welcome to the Asking demo!
+  - ask:
+      question: Are you ready?
+      key: ready
+      recall: false
+      branches:
+        - response: [y]
+          then:
+            - text: Great! Let's get started!
+            - goto: name
+        - response: [n, ""]
+          then:
+            - stop: false
+
+name:
+  - ask:
+      question: What's your name?
+      key: user.name
+      recall: true
+      branches:
+        - response: "^.+$"
+          then:
+            - goto: smell
+
+smell:
+  - ask:
+      question: What's your favourite smell?
+      key: user.smell
+      recall: true
+      branches:
+        - response: "^.+$"
+          then:
+            - goto: finalise
+
+finalise:
+  - text: "Here's your configuration:"
+  - responses: json
+  - ask:
+      question: Okay to save?
+      key: save
+      branches:
+        - response: y
+          then:
+            - stop: true
+        - response: n
+          then:
+            - stop: false
