@@ -15,7 +15,9 @@ class PromptBuilder(ABC):
 
     @abstractproperty
     def prompt(self) -> Optional[str]:
-        ...
+        """
+        Prompt to show to the user.
+        """
 
 
 class MultipleChoicePromptBuilder(PromptBuilder):

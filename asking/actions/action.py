@@ -1,12 +1,10 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from logging import getLogger
 from os import get_terminal_size
 from typing import Any, Dict, Optional
 
-from ansiwrap import (  # pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
-    fill,
-)
+# pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
+from ansiwrap import fill
 
 from asking.exceptions import NothingToDoError
 from asking.protocols import ActionProtocol, StateProtocol
@@ -25,25 +23,20 @@ class Action(ABC, ActionProtocol):
     def get_string(
         self,
         key: str,
-        default: Optional[str] = None,
         source: Optional[Dict[str, str]] = None,
         wrap: bool = True,
     ) -> str:
         source = source or self._action
         value = source.get(key, None)
         if value is None:
-            if default is None:
-                raise NothingToDoError()
-            value = default
-
-        logger = getLogger("asking")
+            raise NothingToDoError()
 
         str_value = str(value)
 
         try:
             str_value = str_value.format(None, **self.state.references)
         except KeyError as ex:
-            logger.warning("Missed reference key: %s", ex)
+            self._state.logger.warning("Missed reference key: %s", ex)
 
         if wrap:
             str_value = self.wrap(str_value)
@@ -51,14 +44,19 @@ class Action(ABC, ActionProtocol):
         return str(str_value)
 
     def wrap(self, text: str) -> str:
-        column_count, _ = get_terminal_size()
+        try:
+            column_count, _ = get_terminal_size()
+        except OSError:
+            column_count = 70
         width = min(70, column_count)
         filled: str = fill(text, width)
         return str(filled)
 
     @abstractmethod
     def perform(self) -> ActionResult:
-        pass
+        """
+        Performs the action and returns its result.
+        """
 
     @property
     def state(self) -> StateProtocol:

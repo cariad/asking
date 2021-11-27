@@ -14,20 +14,27 @@ class State(StateProtocol):
     Script state.
 
     Arguments:
-        responses:  Dictionary of previous and updated responses
-        references: Values referencable during the script
-        out:        Output writer (defaults to stdout)
+        responses:  Dictionary of previous and updated responses.
+        directions: User responses to give during testing.
+        references: Values referencable during the script.
+        out:        Output writer (defaults to stdout).
     """
 
     def __init__(
         self,
         responses: Responses,
+        directions: Optional[Dict[str, str]] = None,
         references: Optional[Dict[str, str]] = None,
         out: Optional[IO[str]] = None,
     ) -> None:
+        self._directions = directions or {}
         self._out = out or stdout
         self._references = references or {}
         self._responses = responses
+
+    @property
+    def directions(self) -> Dict[str, str]:
+        return self._directions
 
     @property
     def logger(self) -> Logger:
@@ -39,6 +46,10 @@ class State(StateProtocol):
 
     @property
     def references(self) -> Dict[str, str]:
+        """
+        Dynamic values referencable at runtime.
+        """
+
         return self._references
 
     def perform_action(self, action_dict: Dict[str, Any]) -> Optional[StageKey]:
@@ -60,7 +71,7 @@ class State(StateProtocol):
             self.logger.warning("ActionDict was unrecognised: %s", action_dict)
         return None
 
-    def perform_actions(self, actions: List[Dict[str, Any]]) -> Optional[str]:
+    def perform_actions(self, actions: List[Dict[str, Any]]) -> StageKey:
         for action_dict in actions:
             if next := self.perform_action(action_dict):
                 return next
@@ -77,10 +88,16 @@ class State(StateProtocol):
         value: str,
         responses: Optional[Responses] = None,
     ) -> None:
-        logger = getLogger("asking")
+        """
+        Saves the response value `value` at `key`.
+
+        Arguments:
+            key:   Response path. Use "." as the path separator.
+            value: Value
+        """
 
         responses = self._responses if responses is None else responses
-        logger.debug("Saving a value for key %s in response %s", key, responses)
+        self.logger.debug("Saving a value for key %s in response %s", key, responses)
 
         if "." not in key:
             responses[key] = value
@@ -91,9 +108,13 @@ class State(StateProtocol):
 
         if sub_key in responses:
             if not isinstance(responses[sub_key], dict):
-                raise Exception("conflict")
+                raise TypeError(
+                    f'Expected value at key "{sub_key}" to be a dictionary but found "{responses[sub_key]}".'
+                )
         else:
-            logger.debug("Creating sub_key %s subdictionary in %s", sub_key, responses)
+            self.logger.debug(
+                "Creating sub_key %s subdictionary in %s", sub_key, responses
+            )
             responses[sub_key] = {}
 
         subdictionary = responses[sub_key]
@@ -109,10 +130,17 @@ class State(StateProtocol):
         key: str,
         responses: Optional[Responses] = None,
     ) -> Optional[str]:
-        # logger = getLogger("asking")
+        """
+        Gets the response at `key`.
+
+        Arguments:
+            key: Response path. Use "." as the path separator.
+
+        Returns:
+            Value if it exists, otherwise `None`.
+        """
 
         responses = self._responses if responses is None else responses
-        # logger.debug("Saving a value for key %s in response %s", key, responses)
 
         if "." not in key:
             value = responses.get(key, None)
@@ -123,11 +151,11 @@ class State(StateProtocol):
 
         if sub_key in responses:
             if not isinstance(responses[sub_key], dict):
-                raise Exception("conflict")
+                raise TypeError(
+                    f'Expected value at key "{sub_key}" to be a dictionary but found "{responses[sub_key]}".'
+                )
         else:
             return None
-            # logger.debug("Creating sub_key %s subdictionary in %s", sub_key, responses)
-            # responses[sub_key] = {}
 
         subdictionary = responses[sub_key]
 

@@ -39,6 +39,7 @@ finalise:
   - responses: json
   - ask:
       question: Okay to save?
+      key: save
       branches:
         - response: y
           then:

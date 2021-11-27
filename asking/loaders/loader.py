@@ -10,7 +10,9 @@ class Loader(ABC):
 
     @abstractmethod
     def load(self) -> ScriptDict:
-        ...
+        """
+        Override to load the script dictionary.
+        """
 
     @property
     def script_dict(self) -> ScriptDict:

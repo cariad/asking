@@ -1,7 +1,7 @@
 from dataclasses import dataclass
-from getpass import getuser
 from json import dumps
 from pathlib import Path
+from typing import Dict, Optional
 
 from cline import CommandLineArguments, Task
 
@@ -12,30 +12,21 @@ from asking.types import Responses
 
 
 @dataclass
-class RunTaskArguments:
+class PerformTaskArguments:
     path: Path
+    directions: Optional[Dict[str, str]] = None
+    responses: Optional[Responses] = None
 
 
-class RunTask(Task[RunTaskArguments]):
+class PerformTask(Task[PerformTaskArguments]):
     @classmethod
-    def make_args(cls, args: CommandLineArguments) -> RunTaskArguments:
-        return RunTaskArguments(
-            path=Path(args.get_string("path")),
-        )
+    def make_args(cls, args: CommandLineArguments) -> PerformTaskArguments:
+        return PerformTaskArguments(path=Path(args.get_string("path")))
 
     def invoke(self) -> int:
-        responses: Responses = {
-            "user": {
-                "name": getuser(),
-            }
-        }
-        state = State(responses)
-
-        script = Script(
-            loader=FileLoader(self.args.path),
-            state=state,
-        )
-
+        responses: Responses = {}
+        state = State(responses, directions=self.args.directions)
+        script = Script(FileLoader(self.args.path), state)
         stop_reason = script.start()
 
         self.out.write("Stopped with reason: ")

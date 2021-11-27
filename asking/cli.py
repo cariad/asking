@@ -32,5 +32,5 @@ class AskingCLI(ArgumentParserCli):
         """
 
         return [
-            asking.tasks.RunTask,
+            asking.tasks.PerformTask,
         ]

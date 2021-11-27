@@ -1,5 +1,5 @@
-from asking.tasks.run import RunTask
+from asking.tasks.perform import PerformTask
 
 __all__ = [
-    "RunTask",
+    "PerformTask",
 ]

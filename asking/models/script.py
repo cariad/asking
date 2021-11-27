@@ -6,11 +6,7 @@ from asking.types import StopReason
 
 
 class Script:
-    def __init__(
-        self,
-        loader: Loader,
-        state: StateProtocol,
-    ) -> None:
+    def __init__(self, loader: Loader, state: StateProtocol) -> None:
         self._loader = loader
         self._state = state
 

@@ -11,8 +11,6 @@ class GotoAction(Action):
         if raw is None:
             raise NothingToDoError()
 
-        goto = None if raw is None else str(raw)
-        if goto is not None:
-            self.state.logger.debug("goto: %s", goto)
-
+        goto = str(raw)
+        self.state.logger.debug("goto: %s", goto)
         return ActionResult(next=goto)

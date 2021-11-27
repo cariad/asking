@@ -1,6 +1,6 @@
 from typing import List, Type
 
-from asking.actions.action import Action
+from asking.actions.action import Action, ActionResult
 from asking.actions.ask import AskAction
 from asking.actions.goto import GotoAction
 from asking.actions.responses import ResponsesAction
@@ -20,6 +20,7 @@ registered_actions: List[Type[Action]] = [
 """In execution order."""
 
 __all__ = [
+    "ActionResult",
     "AskAction",
     "GotoAction",
     "ResponsesAction",
