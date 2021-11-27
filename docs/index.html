@@ -346,7 +346,7 @@ h2, h3, h4, h5, h6 {
         <h1>🙋 Asking</h1>
 <p><strong>Asking</strong> is a Python package that helps you ask questions and get answers from command line users.</p>
 <p><a href="https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi"><img alt="asciicast" src="https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi.svg"></a></p>
-<p><nav class="toc"><ol><li><a href="#-asking">🙋 Asking</a><ol><li><a href="#getting-started">Getting started</a><ol><li><a href="#installation">Installation</a></li><li><a href="#quick-start-example">Quick-start example</a></li></ol></li><li><a href="#how-asking-works">How Asking works</a></li><li><a href="#scripts">Scripts</a><ol><li><a href="#script-structure">Script structure</a></li><li><a href="#asking-for-a-value">Asking for a value</a></li><li><a href="#offering-the-previous-value-as-the-default">Offering the previous value as the default</a></li><li><a href="#offering-multiple-choice-responses">Offering multiple choice responses</a></li><li><a href="#offering-multiple-choice-responses-with-a-default">Offering multiple choice responses with a default</a></li><li><a href="#dynamic-values">Dynamic values</a></li><li><a href="#multiple-stages">Multiple stages</a></li></ol></li><li><a href="#usage">Usage</a><ol><li><a href="#loaders">Loaders</a></li><li><a href="#states">States</a></li><li><a href="#performing-a-script">Performing a script</a></li></ol></li><li><a href="#tasks">Tasks</a><ol><li><a href="#ask">ask</a></li><li><a href="#goto">goto</a></li><li><a href="#responses">responses</a></li><li><a href="#stop">stop</a></li><li><a href="#text">text</a></li><li><a href="#title">title</a></li></ol></li><li><a href="#project">Project</a><ol><li><a href="#contributing">Contributing</a></li><li><a href="#licence">Licence</a></li><li><a href="#author">Author</a></li><li><a href="#acknowledgements">Acknowledgements</a></li></ol></li></ol></li></ol></nav></p>
+<p><nav class="toc"><ol><li><a href="#-asking">🙋 Asking</a><ol><li><a href="#getting-started">Getting started</a><ol><li><a href="#installation">Installation</a></li><li><a href="#quick-start-example">Quick-start example</a></li></ol></li><li><a href="#how-asking-works">How Asking works</a></li><li><a href="#scripts">Scripts</a><ol><li><a href="#script-structure">Script structure</a></li><li><a href="#asking-for-a-value">Asking for a value</a></li><li><a href="#offering-the-previous-value-as-the-default">Offering the previous value as the default</a></li><li><a href="#offering-multiple-choice-responses">Offering multiple choice responses</a></li><li><a href="#offering-multiple-choice-responses-with-a-default">Offering multiple choice responses with a default</a></li><li><a href="#dynamic-values">Dynamic values</a></li><li><a href="#multiple-stages">Multiple stages</a></li></ol></li><li><a href="#usage">Usage</a><ol><li><a href="#loaders">Loaders</a></li><li><a href="#states">States</a></li><li><a href="#performing-a-script">Performing a script</a></li><li><a href="#unit-testing">Unit testing</a></li></ol></li><li><a href="#actions">Actions</a><ol><li><a href="#ask">ask</a></li><li><a href="#goto">goto</a></li><li><a href="#responses">responses</a></li><li><a href="#stop">stop</a></li><li><a href="#text">text</a></li><li><a href="#title">title</a></li></ol></li><li><a href="#project">Project</a><ol><li><a href="#contributing">Contributing</a></li><li><a href="#licence">Licence</a></li><li><a href="#author">Author</a></li><li><a href="#acknowledgements">Acknowledgements</a></li></ol></li></ol></li></ol></nav></p>
 <h2>Getting started<a id="getting-started"></a></h2>
 <h3>Installation<a id="installation"></a></h3>
 <p>Asking requires <strong>Python 3.8</strong> or later.</p>
@@ -370,7 +370,7 @@ h2, h3, h4, h5, h6 {
 <h2>Scripts<a id="scripts"></a></h2>
 <h3>Script structure<a id="script-structure"></a></h3>
 <p>A <strong>script</strong> is essentially a dictionary of <strong>stages</strong>, and a <strong>stage</strong> is a list of <strong>actions</strong>.</p>
-<p>A script always starts with a stage named "start", and tasks are invoked sequentially in order.</p>
+<p>A script always starts with a stage named "start", and actions are invoked sequentially in order.</p>
 <h3>Asking for a value<a id="asking-for-a-value"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
@@ -383,9 +383,9 @@ h2, h3, h4, h5, h6 {
 </pre></div>
 
 <p>This script asks the user for their name then exits.</p>
-<p>The script contains just one stage, named "start". The stage contains just one task: an "ask" task.</p>
-<p>The "ask" task contains a "question", which is printed to the screen. The "key" describes where in the dictionary the user's answer should be saved. "user.name" describes the "name" key of the "user" sub dictionary.</p>
-<p>The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the tasks to invoke on that branch and, in this case, we "stop" and send "true" back to the host application.</p>
+<p>The script contains just one stage, named "start". The stage contains just one action: an "ask" action.</p>
+<p>The "ask" action contains a "question", which is printed to the screen. The "key" describes where in the dictionary the user's answer should be saved. "user.name" describes the "name" key of the "user" sub dictionary.</p>
+<p>The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the actions to invoke on that branch and, in this case, we "stop" and send "true" back to the host application.</p>
 <h3>Offering the previous value as the default<a id="offering-the-previous-value-as-the-default"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
@@ -524,14 +524,18 @@ h2, h3, h4, h5, h6 {
 <span class="n">stop_reason</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 </pre></div>
 
-<p>When <code>ask()</code> is complete, it will return whatever value the performance's "stop" task returned, and the responses dictionary will be populated with the user's answers.</p>
-<h2>Tasks<a id="tasks"></a></h2>
+<p>When <code>ask()</code> is complete, it will return whatever value the performance's "stop" action returned, and the responses dictionary will be populated with the user's answers.</p>
+<h3>Unit testing<a id="unit-testing"></a></h3>
+<p>By default, Asking will -- naturally -- ask users for input.</p>
+<p>To test your script without human interaction, you can pass directions into the state. This is a dictionary containing the value to respond with for each question key.</p>
+<p>Note that is a flat dictionary, so keys should contain periods and not sub dictionaries.</p>
+<h2>Actions<a id="actions"></a></h2>
 <h3>ask<a id="ask"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">ask</span><span class="p">:</span>
   <span class="nt">branches</span><span class="p">:</span>
     <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string or string list, required</span>
       <span class="nt">then</span><span class="p">:</span>
-        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">task</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">action</span>
   <span class="nt">key</span><span class="p">:</span>      <span class="l l-Scalar l-Scalar-Plain">string</span>
   <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string, required</span>
   <span class="nt">recall</span><span class="p">:</span>   <span class="l l-Scalar l-Scalar-Plain">boolean, default=False</span>
@@ -542,33 +546,33 @@ h2, h3, h4, h5, h6 {
 <p><code>recall</code> indicates whether to load the response dictionary's current value as the default answer.</p>
 <p><code>branches</code> describes the possible reactions to the user's answer.</p>
 <p><code>response</code> can be a string value, list of string values, or a regular expression. The first branch with a matching response will be followed.</p>
-<p><code>then</code> describes the list of tasks to perform when the branch is followed.</p>
+<p><code>then</code> describes the list of actions to perform when the branch is followed.</p>
 <h3>goto<a id="goto"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">goto</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">stage</span>
 </pre></div>
 
-<p>When a "goto" task is encountered then execution will jump immediately to the specified stage.</p>
+<p>When a "goto" action is encountered then execution will jump immediately to the specified stage.</p>
 <h3>responses<a id="responses"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">responses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">json</span>
 </pre></div>
 
-<p>The "responses" task prints the current values of the response dictionary.</p>
+<p>The "responses" action prints the current values of the response dictionary.</p>
 <h3>stop<a id="stop"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">any</span>
 </pre></div>
 
-<p>The "stop" task immediately stops the script and returns the reason to the host application.</p>
+<p>The "stop" action immediately stops the script and returns the reason to the host application.</p>
 <p>The reason is required but can be any value; even a list or dictionary.</p>
 <h3>text<a id="text"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">text</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
 </pre></div>
 
-<p>The "text" task simply prints a line of text.</p>
+<p>The "text" action simply prints a line of text.</p>
 <h3>title<a id="title"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">title</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
 </pre></div>
 
-<p>The "title" task prints a line of text formatted as a title.</p>
+<p>The "title" action prints a line of text formatted as a title.</p>
 <h2>Project<a id="project"></a></h2>
 <h3>Contributing<a id="contributing"></a></h3>
 <p>To contribute a bug report, enhancement or feature request, please raise an issue at <a href="https://github.com/cariad/asking/issues">github.com/cariad/asking/issues</a>.</p>

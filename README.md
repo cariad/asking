@@ -21,7 +21,8 @@
     - [Loaders](#loaders)
     - [States](#states)
     - [Performing a script](#performing-a-script)
-  - [Tasks](#tasks)
+    - [Unit testing](#unit-testing)
+  - [Actions](#actions)
     - [ask](#ask)
     - [goto](#goto)
     - [responses](#responses)
@@ -71,7 +72,7 @@ When the script ends, Asking returns some state to describe the success of the i
 
 A **script** is essentially a dictionary of **stages**, and a **stage** is a list of **actions**.
 
-A script always starts with a stage named "start", and tasks are invoked sequentially in order.
+A script always starts with a stage named "start", and actions are invoked sequentially in order.
 
 ### Asking for a value
 
@@ -88,11 +89,11 @@ start:
 
 This script asks the user for their name then exits.
 
-The script contains just one stage, named "start". The stage contains just one task: an "ask" task.
+The script contains just one stage, named "start". The stage contains just one action: an "ask" action.
 
-The "ask" task contains a "question", which is printed to the screen. The "key" describes where in the dictionary the user's answer should be saved. "user.name" describes the "name" key of the "user" sub dictionary.
+The "ask" action contains a "question", which is printed to the screen. The "key" describes where in the dictionary the user's answer should be saved. "user.name" describes the "name" key of the "user" sub dictionary.
 
-The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the tasks to invoke on that branch and, in this case, we "stop" and send "true" back to the host application.
+The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the actions to invoke on that branch and, in this case, we "stop" and send "true" back to the host application.
 
 ### Offering the previous value as the default
 
@@ -257,9 +258,17 @@ state = State(responses)
 stop_reason = ask(loader, state)
 ```
 
-When `ask()` is complete, it will return whatever value the performance's "stop" task returned, and the responses dictionary will be populated with the user's answers.
+When `ask()` is complete, it will return whatever value the performance's "stop" action returned, and the responses dictionary will be populated with the user's answers.
 
-## Tasks
+### Unit testing
+
+By default, Asking will -- naturally -- ask users for input.
+
+To test your script without human interaction, you can pass directions into the state. This is a dictionary containing the value to respond with for each question key.
+
+Note that is a flat dictionary, so keys should contain periods and not sub dictionaries.
+
+## Actions
 
 ### ask
 
@@ -268,7 +277,7 @@ ask:
   branches:
     - response: string or string list, required
       then:
-        - task
+        - action
   key:      string
   question: string, required
   recall:   boolean, default=False
@@ -284,7 +293,7 @@ ask:
 
 `response` can be a string value, list of string values, or a regular expression. The first branch with a matching response will be followed.
 
-`then` describes the list of tasks to perform when the branch is followed.
+`then` describes the list of actions to perform when the branch is followed.
 
 ### goto
 
@@ -292,7 +301,7 @@ ask:
 goto: stage
 ```
 
-When a "goto" task is encountered then execution will jump immediately to the specified stage.
+When a "goto" action is encountered then execution will jump immediately to the specified stage.
 
 ### responses
 
@@ -300,7 +309,7 @@ When a "goto" task is encountered then execution will jump immediately to the sp
 responses: json
 ```
 
-The "responses" task prints the current values of the response dictionary.
+The "responses" action prints the current values of the response dictionary.
 
 ### stop
 
@@ -308,7 +317,7 @@ The "responses" task prints the current values of the response dictionary.
 stop: any
 ```
 
-The "stop" task immediately stops the script and returns the reason to the host application.
+The "stop" action immediately stops the script and returns the reason to the host application.
 
 The reason is required but can be any value; even a list or dictionary.
 
@@ -318,7 +327,7 @@ The reason is required but can be any value; even a list or dictionary.
 text: string
 ```
 
-The "text" task simply prints a line of text.
+The "text" action simply prints a line of text.
 
 ### title
 
@@ -326,7 +335,7 @@ The "text" task simply prints a line of text.
 title: string
 ```
 
-The "title" task prints a line of text formatted as a title.
+The "title" action prints a line of text formatted as a title.
 
 ## Project
 
