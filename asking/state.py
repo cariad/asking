@@ -72,7 +72,10 @@ class State(StateProtocol):
         return self._responses
 
     def save_response(
-        self, key: str, value: str, responses: Optional[Responses] = None,
+        self,
+        key: str,
+        value: str,
+        responses: Optional[Responses] = None,
     ) -> None:
         logger = getLogger("asking")
 
@@ -101,8 +104,11 @@ class State(StateProtocol):
             responses=subdictionary,
         )
 
-
-    def get_response(self, key: str, responses: Optional[Responses] = None,) -> Optional[str]:
+    def get_response(
+        self,
+        key: str,
+        responses: Optional[Responses] = None,
+    ) -> Optional[str]:
         # logger = getLogger("asking")
 
         responses = self._responses if responses is None else responses

@@ -1,8 +1,8 @@
 from typing import List, Optional, Type
 
 from asking.prompts.prompt import MultipleChoicePromptBuilder, PromptBuilder
-from asking.protocols import AskActionProtocol
 from asking.prompts.recall_prompt import RecallPromptBuilder
+from asking.protocols import AskActionProtocol
 
 all_prompt_builders: List[Type[PromptBuilder]] = [
     RecallPromptBuilder,

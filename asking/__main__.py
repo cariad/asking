@@ -3,7 +3,7 @@ from asking.cli import AskingCLI
 
 
 def entry() -> None:
-    AskingCLI.invoke_and_exit(log_level="DEBUG", version=__version__)
+    AskingCLI.invoke_and_exit(app_version=__version__)
 
 
 if __name__ == "__main__":

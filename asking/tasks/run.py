@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from getpass import getuser
 from json import dumps
 from pathlib import Path
 
@@ -6,8 +7,8 @@ from cline import CommandLineArguments, Task
 
 from asking.loaders.file_loader import FileLoader
 from asking.models import Script
-from asking.types import Responses
 from asking.state import State
+from asking.types import Responses
 
 
 @dataclass
@@ -17,7 +18,7 @@ class RunTaskArguments:
 
 class RunTask(Task[RunTaskArguments]):
     @classmethod
-    def make_task_args(cls, args: CommandLineArguments) -> RunTaskArguments:
+    def make_args(cls, args: CommandLineArguments) -> RunTaskArguments:
         return RunTaskArguments(
             path=Path(args.get_string("path")),
         )
@@ -25,7 +26,7 @@ class RunTask(Task[RunTaskArguments]):
     def invoke(self) -> int:
         responses: Responses = {
             "user": {
-                "name": "jammo",
+                "name": getuser(),
             }
         }
         state = State(responses)

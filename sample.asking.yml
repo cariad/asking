@@ -1,6 +1,6 @@
 start:
   - title: Asking Demo
-  - text: Welcome to the Asking demo.
+  - text: Welcome to the Asking demo!
   - ask:
       question: Are you ready?
       key: ready

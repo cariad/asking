@@ -1,38 +1,16 @@
+---
+author: Cariad Eccleston
+favicon-emoji: 🙋
+title: Asking
+---
+
 # 🙋 Asking
 
 **Asking** is a Python package that helps you ask questions and get answers from command line users.
 
 [![asciicast](https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi.svg)](https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi)
 
-- [🙋 Asking](#-asking)
-  - [Getting started](#getting-started)
-    - [Installation](#installation)
-    - [Quick-start example](#quick-start-example)
-  - [How Asking works](#how-asking-works)
-  - [Scripts](#scripts)
-    - [Script structure](#script-structure)
-    - [Asking for a value](#asking-for-a-value)
-    - [Offering the previous value as the default](#offering-the-previous-value-as-the-default)
-    - [Offering multiple choice responses](#offering-multiple-choice-responses)
-    - [Offering multiple choice responses with a default](#offering-multiple-choice-responses-with-a-default)
-    - [Dynamic values](#dynamic-values)
-    - [Multiple stages](#multiple-stages)
-  - [Usage](#usage)
-    - [Loaders](#loaders)
-    - [States](#states)
-    - [Performing a script](#performing-a-script)
-  - [Tasks](#tasks)
-    - [ask](#ask)
-    - [goto](#goto)
-    - [responses](#responses)
-    - [stop](#stop)
-    - [text](#text)
-    - [title](#title)
-  - [Project](#project)
-    - [Contributing](#contributing)
-    - [Licence](#licence)
-    - [Author](#author)
-    - [Acknowledgements](#acknowledgements)
+<edition value="toc" />
 
 ## Getting started
 

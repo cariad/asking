@@ -1,14 +1,13 @@
 from argparse import ArgumentParser
 from typing import List, Type
 
-from cline import AnyTask, Cli
+from cline import AnyTask, ArgumentParserCli
 
 import asking.tasks
 
 
-class AskingCLI(Cli):
-    @property
-    def arg_parser(self) -> ArgumentParser:
+class AskingCLI(ArgumentParserCli):
+    def make_parser(self) -> ArgumentParser:
         """
         Gets the argument parser.
         """
@@ -26,8 +25,7 @@ class AskingCLI(Cli):
         )
         return parser
 
-    @property
-    def tasks(self) -> List[Type[AnyTask]]:
+    def register_tasks(self) -> List[Type[AnyTask]]:
         """
         Gets the tasks that this CLI can perform.
         ordered

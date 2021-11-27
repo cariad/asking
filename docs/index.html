@@ -1,0 +1,591 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Asking</title>
+    <meta name="author" content="Cariad Eccleston" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🙋</text></svg>" />
+    <style>
+body {
+  /* Thanks! https://systemfontstack.com */
+  font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, segoe ui, helvetica neue, helvetica, Ubuntu, roboto, noto, arial, sans-serif;
+}
+
+body {
+  --accent: #f1fa8c; /* Copied from Dracula */
+  --paragraph-spacing: 2rem;
+  --paragraph-spacing-smaller: 0.6rem;
+
+  --regular-margin: 43rem;
+  --grey: #ccc;
+
+  --code-padding: 2rem;
+
+  background-color: var(--white);
+  color: var(--black);
+
+  margin-top: 2rem;
+  margin-bottom: 8rem;
+
+  padding-left: 0.6rem;
+  padding-right: 0.6rem;
+  font-size: 1.2rem;
+}
+
+blockquote,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ol,
+p,
+ul {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: var(--regular-margin)
+}
+
+article > .highlight,
+article > .thtml {
+  margin-left: auto;
+  margin-right: auto;
+  max-width: calc(var(--regular-margin) - (var(--code-padding)*2));
+}
+
+table {
+  margin-top: var(--paragraph-spacing);
+  margin-left: auto;
+  margin-right: auto;
+  width: var(--regular-margin);
+  max-width: var(--regular-margin);
+}
+
+table td,
+table th {
+  padding-left: 0;
+  padding-right: 1rem;
+  padding-top: 0.4rem;
+}
+
+table td:last-child,
+table th:last-child {
+  padding-right: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+ol,
+ul {
+  margin-top: var(--paragraph-spacing-smaller);
+  margin-bottom: 0;
+
+  max-width: calc(var(--regular-margin) - 2rem);
+}
+
+li {
+  margin-bottom: var(--paragraph-spacing-smaller);
+}
+
+h1 {
+  font-size: 4rem;
+}
+
+h2 {
+  font-size: 2rem;
+}
+
+h1, h2, h3, h4, h5, h6, th {
+  border-bottom: 1px solid var(--grey);
+  padding-bottom: 0.3rem;
+}
+
+nav.toc {
+  font-size: 0.8em;
+  letter-spacing: 0.02rem;
+}
+
+nav.toc ol {
+  padding-left: 1rem;
+}
+
+nav.toc li ol {
+  margin-top: 0.1rem;
+}
+
+nav.toc li {
+  list-style: none;
+  margin-bottom: 0.1rem;
+}
+
+p, li, pre {
+  line-height: 1.6;
+}
+
+.thtml {
+  overflow-x: auto;
+}
+
+blockquote {
+  font-style: italic;
+  border-left: 0.6rem solid var(--red);
+  padding-left: 1rem;
+}
+
+a > code,
+h2 > code,
+h3 > code,
+h4 > code,
+h5 > code,
+h6 > code,
+li > code,
+p > code {
+  background: var(--accent);
+  border-radius: 0.3em;
+
+  letter-spacing: 0.04em;
+
+  padding-top: 0.4em;
+  padding-bottom: 0.2em;
+  padding-left: 0.5em;
+  padding-right: 0.5em;
+}
+
+li > code,
+p > code {
+  font-size: 0.85em;
+}
+
+sup {
+  padding-left: 0.2rem;
+  padding-right: 0.2rem;
+}
+
+p {
+  margin-bottom: 0;
+  margin-top: var(--paragraph-spacing);
+}
+
+code, pre {
+  font-family: Menlo, Consolas, Monaco, Liberation Mono, Lucida Console, monospace;
+}
+
+.highlight, .thtml {
+  font-size: 0.8em;
+
+  /* background-color: #1B2A41; */
+  /* color: #fff; */
+
+  padding: var(--code-padding);
+  border-radius: 0.3em;
+
+  margin-top: var(--paragraph-spacing-smaller);
+  margin-bottom: var(--paragraph-spacing);
+
+  box-shadow: 0 0 0.6rem var(--grey)
+}
+
+
+.highlight > pre {
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+}
+
+body > footer {
+  margin-top: 4rem;
+  margin-bottom: 2rem;
+}
+
+nav > ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+nav > ul > li {
+  display: inline;
+  margin-right: 1rem;
+}
+
+h2+h3,
+h3+h4,
+h4+h5,
+h5+h6 {
+  margin-top: 0;
+}
+
+h2, h3, h4, h5, h6 {
+  margin-bottom: var(--paragraph-spacing);
+  margin-top: calc(var(--paragraph-spacing) * 2);
+}
+
+/* Dracula Theme v1.2.5
+ *
+ * https://github.com/dracula/pygments
+ *
+ * Copyright 2016, All rights reserved
+ *
+ * Code licensed under the MIT license
+ * http://zenorocha.mit-license.org
+ *
+ * The MIT License (MIT)
+ *
+ * Copyright (c) 2016 Dracula Theme
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ *
+ * @author Rob G <wowmotty@gmail.com>
+ * @author Chris Bracco <chris@cbracco.me>
+ * @author Zeno Rocha <hi@zenorocha.com>
+ */
+
+ .highlight .hll { background-color: #f1fa8c }
+ .highlight  { background: #282a36; color: #f8f8f2 }
+ .highlight .c { color: #6272a4 } /* Comment */
+ .highlight .err { color: #f8f8f2 } /* Error */
+ .highlight .g { color: #f8f8f2 } /* Generic */
+ .highlight .k { color: #ff79c6 } /* Keyword */
+ .highlight .l { color: #f8f8f2 } /* Literal */
+ .highlight .n { color: #f8f8f2 } /* Name */
+ .highlight .o { color: #ff79c6 } /* Operator */
+ .highlight .x { color: #f8f8f2 } /* Other */
+ .highlight .p { color: #f8f8f2 } /* Punctuation */
+ .highlight .ch { color: #6272a4 } /* Comment.Hashbang */
+ .highlight .cm { color: #6272a4 } /* Comment.Multiline */
+ .highlight .cp { color: #ff79c6 } /* Comment.Preproc */
+ .highlight .cpf { color: #6272a4 } /* Comment.PreprocFile */
+ .highlight .c1 { color: #6272a4 } /* Comment.Single */
+ .highlight .cs { color: #6272a4 } /* Comment.Special */
+ .highlight .gd { color: #8b080b } /* Generic.Deleted */
+ .highlight .ge { color: #f8f8f2; text-decoration: underline } /* Generic.Emph */
+ .highlight .gr { color: #f8f8f2 } /* Generic.Error */
+ .highlight .gh { color: #f8f8f2; font-weight: bold } /* Generic.Heading */
+ .highlight .gi { color: #f8f8f2; font-weight: bold } /* Generic.Inserted */
+ .highlight .go { color: #44475a } /* Generic.Output */
+ .highlight .gp { color: #f8f8f2 } /* Generic.Prompt */
+ .highlight .gs { color: #f8f8f2 } /* Generic.Strong */
+ .highlight .gu { color: #f8f8f2; font-weight: bold } /* Generic.Subheading */
+ .highlight .gt { color: #f8f8f2 } /* Generic.Traceback */
+ .highlight .kc { color: #ff79c6 } /* Keyword.Constant */
+ .highlight .kd { color: #8be9fd; font-style: italic } /* Keyword.Declaration */
+ .highlight .kn { color: #ff79c6 } /* Keyword.Namespace */
+ .highlight .kp { color: #ff79c6 } /* Keyword.Pseudo */
+ .highlight .kr { color: #ff79c6 } /* Keyword.Reserved */
+ .highlight .kt { color: #8be9fd } /* Keyword.Type */
+ .highlight .ld { color: #f8f8f2 } /* Literal.Date */
+ .highlight .m { color: #bd93f9 } /* Literal.Number */
+ .highlight .s { color: #f1fa8c } /* Literal.String */
+ .highlight .na { color: #50fa7b } /* Name.Attribute */
+ .highlight .nb { color: #8be9fd; font-style: italic } /* Name.Builtin */
+ .highlight .nc { color: #50fa7b } /* Name.Class */
+ .highlight .no { color: #f8f8f2 } /* Name.Constant */
+ .highlight .nd { color: #f8f8f2 } /* Name.Decorator */
+ .highlight .ni { color: #f8f8f2 } /* Name.Entity */
+ .highlight .ne { color: #f8f8f2 } /* Name.Exception */
+ .highlight .nf { color: #50fa7b } /* Name.Function */
+ .highlight .nl { color: #8be9fd; font-style: italic } /* Name.Label */
+ .highlight .nn { color: #f8f8f2 } /* Name.Namespace */
+ .highlight .nx { color: #f8f8f2 } /* Name.Other */
+ .highlight .py { color: #f8f8f2 } /* Name.Property */
+ .highlight .nt { color: #ff79c6 } /* Name.Tag */
+ .highlight .nv { color: #8be9fd; font-style: italic } /* Name.Variable */
+ .highlight .ow { color: #ff79c6 } /* Operator.Word */
+ .highlight .w { color: #f8f8f2 } /* Text.Whitespace */
+ .highlight .mb { color: #bd93f9 } /* Literal.Number.Bin */
+ .highlight .mf { color: #bd93f9 } /* Literal.Number.Float */
+ .highlight .mh { color: #bd93f9 } /* Literal.Number.Hex */
+ .highlight .mi { color: #bd93f9 } /* Literal.Number.Integer */
+ .highlight .mo { color: #bd93f9 } /* Literal.Number.Oct */
+ .highlight .sa { color: #f1fa8c } /* Literal.String.Affix */
+ .highlight .sb { color: #f1fa8c } /* Literal.String.Backtick */
+ .highlight .sc { color: #f1fa8c } /* Literal.String.Char */
+ .highlight .dl { color: #f1fa8c } /* Literal.String.Delimiter */
+ .highlight .sd { color: #f1fa8c } /* Literal.String.Doc */
+ .highlight .s2 { color: #f1fa8c } /* Literal.String.Double */
+ .highlight .se { color: #f1fa8c } /* Literal.String.Escape */
+ .highlight .sh { color: #f1fa8c } /* Literal.String.Heredoc */
+ .highlight .si { color: #f1fa8c } /* Literal.String.Interpol */
+ .highlight .sx { color: #f1fa8c } /* Literal.String.Other */
+ .highlight .sr { color: #f1fa8c } /* Literal.String.Regex */
+ .highlight .s1 { color: #f1fa8c } /* Literal.String.Single */
+ .highlight .ss { color: #f1fa8c } /* Literal.String.Symbol */
+ .highlight .bp { color: #f8f8f2; font-style: italic } /* Name.Builtin.Pseudo */
+ .highlight .fm { color: #50fa7b } /* Name.Function.Magic */
+ .highlight .vc { color: #8be9fd; font-style: italic } /* Name.Variable.Class */
+ .highlight .vg { color: #8be9fd; font-style: italic } /* Name.Variable.Global */
+ .highlight .vi { color: #8be9fd; font-style: italic } /* Name.Variable.Instance */
+ .highlight .vm { color: #8be9fd; font-style: italic } /* Name.Variable.Magic */
+ .highlight .il { color: #bd93f9 } /* Literal.Number.Integer.Long */
+</style>
+  </head>
+
+  <body>
+    <article>
+        <h1>🙋 Asking</h1>
+<p><strong>Asking</strong> is a Python package that helps you ask questions and get answers from command line users.</p>
+<p><a href="https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi"><img alt="asciicast" src="https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi.svg"></a></p>
+<p><nav class="toc"><ol><li><a href="#-asking">🙋 Asking</a><ol><li><a href="#getting-started">Getting started</a><ol><li><a href="#installation">Installation</a></li><li><a href="#quick-start-example">Quick-start example</a></li></ol></li><li><a href="#how-asking-works">How Asking works</a></li><li><a href="#scripts">Scripts</a><ol><li><a href="#script-structure">Script structure</a></li><li><a href="#asking-for-a-value">Asking for a value</a></li><li><a href="#offering-the-previous-value-as-the-default">Offering the previous value as the default</a></li><li><a href="#offering-multiple-choice-responses">Offering multiple choice responses</a></li><li><a href="#offering-multiple-choice-responses-with-a-default">Offering multiple choice responses with a default</a></li><li><a href="#dynamic-values">Dynamic values</a></li><li><a href="#multiple-stages">Multiple stages</a></li></ol></li><li><a href="#usage">Usage</a><ol><li><a href="#loaders">Loaders</a></li><li><a href="#states">States</a></li><li><a href="#performing-a-script">Performing a script</a></li></ol></li><li><a href="#tasks">Tasks</a><ol><li><a href="#ask">ask</a></li><li><a href="#goto">goto</a></li><li><a href="#responses">responses</a></li><li><a href="#stop">stop</a></li><li><a href="#text">text</a></li><li><a href="#title">title</a></li></ol></li><li><a href="#project">Project</a><ol><li><a href="#contributing">Contributing</a></li><li><a href="#licence">Licence</a></li><li><a href="#author">Author</a></li><li><a href="#acknowledgements">Acknowledgements</a></li></ol></li></ol></li></ol></nav></p>
+<h2>Getting started<a id="getting-started"></a></h2>
+<h3>Installation<a id="installation"></a></h3>
+<p>Asking requires <strong>Python 3.8</strong> or later.</p>
+<p>Install Asking via pip:</p>
+<div class="highlight"><pre><span></span>pip install asking
+</pre></div>
+
+<h3>Quick-start example<a id="quick-start-example"></a></h3>
+<p>Download the <a href="https://raw.githubusercontent.com/cariad/asking/main/sample.asking.yml">sample script</a> to your working directory then run <code>asking</code> to perform it:</p>
+<div class="highlight"><pre><span></span>asking sample.asking.yaml
+</pre></div>
+
+<p>Note that this will perform the script, but will not load or save any responses. Performing a script via the CLI application is intended only for testing.</p>
+<h2>How Asking works<a id="how-asking-works"></a></h2>
+<p>In a nutshell, you run Asking with two inputs:</p>
+<ol>
+<li>A script to follow</li>
+<li>A dictionary to read default values out of and populate with new values</li>
+</ol>
+<p>When the script ends, Asking returns some state to describe the success of the interaction, then the populated dictionary is yours to do with as you please.</p>
+<h2>Scripts<a id="scripts"></a></h2>
+<h3>Script structure<a id="script-structure"></a></h3>
+<p>A <strong>script</strong> is essentially a dictionary of <strong>stages</strong>, and a <strong>stage</strong> is a list of <strong>actions</strong>.</p>
+<p>A script always starts with a stage named "start", and tasks are invoked sequentially in order.</p>
+<h3>Asking for a value<a id="asking-for-a-value"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Name?</span>
+      <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">user.name</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="s">"^.+$"</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+
+<p>This script asks the user for their name then exits.</p>
+<p>The script contains just one stage, named "start". The stage contains just one task: an "ask" task.</p>
+<p>The "ask" task contains a "question", which is printed to the screen. The "key" describes where in the dictionary the user's answer should be saved. "user.name" describes the "name" key of the "user" sub dictionary.</p>
+<p>The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the tasks to invoke on that branch and, in this case, we "stop" and send "true" back to the host application.</p>
+<h3>Offering the previous value as the default<a id="offering-the-previous-value-as-the-default"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Name?</span>
+      <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">user.name</span>
+      <span class="nt">recall</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="s">"^.+$"</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+
+<p>This example is identical to the previous except "recall" is now truthy. Asking will read the dictionary's current "key" value and offer it as the default value.</p>
+<h3>Offering multiple choice responses<a id="offering-multiple-choice-responses"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Cake?</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">y</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">n</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</pre></div>
+
+<p>In this example, the responses are plain strings rather than regular expressions. Asking will present all the available options.</p>
+<p>If the user enters "y" then Asking will stop and return truthiness to the host application. If the user enters "n" then Asking will stop and return falsiness.</p>
+<h3>Offering multiple choice responses with a default<a id="offering-multiple-choice-responses-with-a-default"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Cake?</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">y</span><span class="p p-Indicator">,</span> <span class="s">""</span><span class="p p-Indicator">]</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">n</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</pre></div>
+
+<p>This is identical to the previous example, except now the first checked response is a list of options rather than a single string. Asking will use the first branch if the user hits enter without entering a value.</p>
+<h3>Dynamic values<a id="dynamic-values"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">text</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Today's date is {today}.</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Is this correct?</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">y</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">n</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+</pre></div>
+
+<p>To set some text value at runtime, specify the key in braces and include the value in the state when performing the script:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">ask</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">YamlResourceLoader</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
+
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">YamlResourceLoader</span><span class="p">(</span><span class="n">__package__</span><span class="p">,</span> <span class="s2">"setup.asking.yml"</span><span class="p">)</span>
+
+<span class="n">responses</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span>
+    <span class="n">responses</span><span class="p">,</span>
+    <span class="n">references</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"today"</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">(),</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">stop_reason</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+</pre></div>
+
+<h3>Multiple stages<a id="multiple-stages"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Cake?</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">y</span><span class="p p-Indicator">,</span> <span class="s">""</span><span class="p p-Indicator">]</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">goto</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cake</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">n</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">goto</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tea</span>
+
+<span class="nt">cake</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Which cake?</span>
+      <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cake</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="s">"^.+$"</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">goto</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tea</span>
+
+<span class="nt">tea</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
+      <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Tea?</span>
+      <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">tea</span>
+      <span class="nt">branches</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">y</span><span class="p p-Indicator">,</span> <span class="s">""</span><span class="p p-Indicator">]</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">goto</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">final</span>
+        <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">n</span>
+          <span class="nt">then</span><span class="p">:</span>
+            <span class="p p-Indicator">-</span> <span class="nt">goto</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">final</span>
+
+<span class="nt">final</span><span class="p">:</span>
+  <span class="p p-Indicator">-</span> <span class="nt">text</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Thank you for your order!</span>
+  <span class="p p-Indicator">-</span> <span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+</pre></div>
+
+<p>This example presents multiple questions. If the user wants cake then they're asked which one. If they don't want cake, or if they answered which cake they want, then they're asked if they want tea. Either way, the script ends with a thank-you message then stops successfully.</p>
+<h2>Usage<a id="usage"></a></h2>
+<h3>Loaders<a id="loaders"></a></h3>
+<p>Asking will load your script from a file or as a package resource.</p>
+<p>To load from a YAML file, create a <code>FileLoader</code>. To load from a package resource, create a <code>YamlResourceLoader</code>.</p>
+<h3>States<a id="states"></a></h3>
+<p>A <code>State</code> instance must be made available to your script. This describes the dictionary to read/write and any dynamic values.</p>
+<h3>Performing a script<a id="performing-a-script"></a></h3>
+<p>Essentially, a script is performed by:</p>
+<ol>
+<li>Constructing a loader.</li>
+<li>Constructing a state, including your responses dictionary.</li>
+<li>Passing the loader and state into <code>ask()</code>.</li>
+</ol>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">ask</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">YamlResourceLoader</span>
+
+<span class="n">responses</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">YamlResourceLoader</span><span class="p">(</span><span class="n">__package__</span><span class="p">,</span> <span class="s2">"setup.asking.yml"</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
+
+<span class="n">stop_reason</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+</pre></div>
+
+<p>When <code>ask()</code> is complete, it will return whatever value the performance's "stop" task returned, and the responses dictionary will be populated with the user's answers.</p>
+<h2>Tasks<a id="tasks"></a></h2>
+<h3>ask<a id="ask"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">ask</span><span class="p">:</span>
+  <span class="nt">branches</span><span class="p">:</span>
+    <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string or string list, required</span>
+      <span class="nt">then</span><span class="p">:</span>
+        <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">task</span>
+  <span class="nt">key</span><span class="p">:</span>      <span class="l l-Scalar l-Scalar-Plain">string</span>
+  <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string, required</span>
+  <span class="nt">recall</span><span class="p">:</span>   <span class="l l-Scalar l-Scalar-Plain">boolean, default=False</span>
+</pre></div>
+
+<p>"ask" asks a question.</p>
+<p><code>key</code> describes the path in the responses dictionary to read/write the value. Use <code>.</code> as a path separator.</p>
+<p><code>recall</code> indicates whether to load the response dictionary's current value as the default answer.</p>
+<p><code>branches</code> describes the possible reactions to the user's answer.</p>
+<p><code>response</code> can be a string value, list of string values, or a regular expression. The first branch with a matching response will be followed.</p>
+<p><code>then</code> describes the list of tasks to perform when the branch is followed.</p>
+<h3>goto<a id="goto"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">goto</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">stage</span>
+</pre></div>
+
+<p>When a "goto" task is encountered then execution will jump immediately to the specified stage.</p>
+<h3>responses<a id="responses"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">responses</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">json</span>
+</pre></div>
+
+<p>The "responses" task prints the current values of the response dictionary.</p>
+<h3>stop<a id="stop"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">stop</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">any</span>
+</pre></div>
+
+<p>The "stop" task immediately stops the script and returns the reason to the host application.</p>
+<p>The reason is required but can be any value; even a list or dictionary.</p>
+<h3>text<a id="text"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">text</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+</pre></div>
+
+<p>The "text" task simply prints a line of text.</p>
+<h3>title<a id="title"></a></h3>
+<div class="highlight"><pre><span></span><span class="nt">title</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+</pre></div>
+
+<p>The "title" task prints a line of text formatted as a title.</p>
+<h2>Project<a id="project"></a></h2>
+<h3>Contributing<a id="contributing"></a></h3>
+<p>To contribute a bug report, enhancement or feature request, please raise an issue at <a href="https://github.com/cariad/asking/issues">github.com/cariad/asking/issues</a>.</p>
+<p>If you want to contribute a code change, please raise an issue first so we can chat about the direction you want to take.</p>
+<h3>Licence<a id="licence"></a></h3>
+<p>Asking is released at <a href="https://github.com/cariad/asking">github.com/cariad/asking</a> under the MIT Licence.</p>
+<p>See <a href="https://github.com/cariad/asking/blob/main/LICENSE">LICENSE</a> for more information.</p>
+<h3>Author<a id="author"></a></h3>
+<p>Hello! 👋 I'm <strong>Cariad Eccleston</strong> and I'm a freelance DevOps and backend engineer. My contact details are available on my personal wiki at <a href="https://cariad.earth">cariad.earth</a>.</p>
+<p>Please consider supporting my open source projects by <a href="https://github.com/sponsors/cariad/">sponsoring me on GitHub</a>.</p>
+<h3>Acknowledgements<a id="acknowledgements"></a></h3>
+<ul>
+<li>❤️ to <a href="https://github.com/jonathaneunice/ansiwrap">jonathaneunice/ansiwrap</a> for neatly wrapping strings containing ANSI escape codes.</li>
+<li>Command line support by <a href="https://github.com/cariad/cline">Cline</a>.</li>
+<li>This documentation was pressed by <a href="https://github.com/cariad/edition">Edition</a>.</li>
+</ul>
+    </article>
+  </body>
+
+</html>

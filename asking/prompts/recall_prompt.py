@@ -1,5 +1,6 @@
-from typing import Optional
 from logging import getLogger
+from typing import Optional
+
 from asking.prompts.prompt import PromptBuilder
 
 

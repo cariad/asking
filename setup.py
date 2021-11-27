@@ -36,11 +36,13 @@ setup(
     description="Ask questions and get answers",
     entry_points={
         "console_scripts": [
-            "startifact=startifact.__main__:entry",
+            "asking=asking.__main__:entry",
         ],
     },
     include_package_data=True,
     install_requires=[
+        "ansiwrap~=0.8",
+        "cline~=1.1",
         "pyyaml~=6.0",
     ],
     license="MIT",
@@ -54,6 +56,7 @@ setup(
         "asking.models",
         "asking.prompts",
         "asking.protocols",
+        "asking.tasks",
     ],
     package_data={
         "asking": ["py.typed"],
@@ -62,6 +65,7 @@ setup(
         "asking.models": ["py.typed"],
         "asking.prompts": ["py.typed"],
         "asking.protocols": ["py.typed"],
+        "asking.tasks": ["py.typed"],
     },
     python_requires=">=3.8",
     url="https://github.com/cariad/asking",

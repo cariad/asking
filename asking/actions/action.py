@@ -1,12 +1,15 @@
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
-
-from asking.exceptions import NothingToDoError
-from asking.protocols import StateProtocol, ActionProtocol
 from logging import getLogger
 from os import get_terminal_size
-from ansiwrap import fill  # pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
+from typing import Any, Dict, Optional
+
+from ansiwrap import (  # pyright: reportGeneralTypeIssues=false, reportMissingTypeStubs=false
+    fill,
+)
+
+from asking.exceptions import NothingToDoError
+from asking.protocols import ActionProtocol, StateProtocol
 
 
 @dataclass
@@ -24,7 +27,7 @@ class Action(ABC, ActionProtocol):
         key: str,
         default: Optional[str] = None,
         source: Optional[Dict[str, str]] = None,
-        wrap: bool=True,
+        wrap: bool = True,
     ) -> str:
         source = source or self._action
         value = source.get(key, None)
@@ -50,10 +53,7 @@ class Action(ABC, ActionProtocol):
     def wrap(self, text: str) -> str:
         column_count, _ = get_terminal_size()
         width = min(70, column_count)
-        filled: str = fill(
-            text,
-            width
-        )
+        filled: str = fill(text, width)
         return str(filled)
 
     @abstractmethod

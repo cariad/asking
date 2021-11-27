@@ -1,12 +1,12 @@
 import re
 from typing import Any, Dict, Iterable, List, Optional, Union
 
-from ansiscape import heavy, bright_green
+from ansiscape import bright_green, heavy
 
 from asking.actions.action import Action, ActionResult
 from asking.exceptions import AskingError, NothingToDoError
 from asking.prompts import get_prompt
-from asking.protocols import BranchProtocol, AskActionProtocol, StateProtocol
+from asking.protocols import AskActionProtocol, BranchProtocol, StateProtocol
 
 
 class Branch(BranchProtocol):
