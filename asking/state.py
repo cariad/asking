@@ -52,6 +52,14 @@ class State(StateProtocol):
 
         return self._references
 
+    @property
+    def responses(self) -> Any:
+        """
+        Gets the default values and current responses.
+        """
+
+        return self._responses
+
     def perform_action(self, action_dict: Dict[str, Any]) -> Optional[StageKey]:
         self.logger.debug("Performing all known actions on: %s", action_dict)
         any_recognised = False
