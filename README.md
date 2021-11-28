@@ -266,7 +266,7 @@ By default, Asking will -- naturally -- ask users for input.
 
 To test your script without human interaction, you can pass directions into the state. This is a dictionary containing the value to respond with for each question key.
 
-Note that is a flat dictionary, so keys should contain periods and not sub dictionaries.
+Note that this is a flat dictionary, so keys should contain periods and not sub dictionaries.
 
 ## Actions
 
