@@ -29,7 +29,7 @@ class StateProtocol(Protocol):
         """
 
     @property
-    def responses(self) -> Dict[Any, Any]:
+    def responses(self) -> Any:
         """
         Gets the default values and current responses.
         """
