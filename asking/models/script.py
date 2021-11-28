@@ -1,8 +1,9 @@
+from typing import Any
+
 from asking.exceptions import StageNotFoundError, Stop
 from asking.loaders import Loader
 from asking.models.stage import Stage
 from asking.protocols import StateProtocol
-from asking.types import StopReason
 
 
 class Script:
@@ -16,7 +17,14 @@ class Script:
             raise StageNotFoundError(key)
         return Stage(stage=stage, state=self._state)
 
-    def start(self) -> StopReason:
+    def start(self) -> Any:
+        """
+        Performs the script.
+
+        Returns:
+            Reason for stopping.
+        """
+
         stage = self._get_stage("start")
 
         try:
