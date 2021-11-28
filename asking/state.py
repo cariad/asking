@@ -6,7 +6,7 @@ from asking.actions import registered_actions
 from asking.exceptions import NothingToDoError, Stop
 from asking.protocols import StateProtocol
 from asking.stop_reasons import InternalStopReason
-from asking.types import Responses, StageKey
+from asking.types import StageKey
 
 
 class State(StateProtocol):
@@ -22,7 +22,7 @@ class State(StateProtocol):
 
     def __init__(
         self,
-        responses: Responses,
+        responses: Any,
         directions: Optional[Dict[str, str]] = None,
         references: Optional[Dict[str, str]] = None,
         out: Optional[IO[str]] = None,
@@ -78,15 +78,11 @@ class State(StateProtocol):
         self.logger.debug("No more actions: raising NO_MORE_ACTIONS")
         raise Stop(InternalStopReason.NO_MORE_ACTIONS)
 
-    @property
-    def responses(self) -> Dict[Any, Any]:
-        return self._responses
-
     def save_response(
         self,
         key: str,
         value: str,
-        responses: Optional[Responses] = None,
+        responses: Optional[Any] = None,
     ) -> None:
         """
         Saves the response value `value` at `key`.
@@ -96,28 +92,28 @@ class State(StateProtocol):
             value: Value
         """
 
-        responses = self._responses if responses is None else responses
-        self.logger.debug("Saving a value for key %s in response %s", key, responses)
+        source = self._responses if responses is None else responses
+        self.logger.debug("Saving a value for key %s in response %s", key, source)
 
         if "." not in key:
-            responses[key] = value
+            source[key] = value
             return
 
         key_parts = key.split(".")
         sub_key = key_parts[0]
 
-        if sub_key in responses:
-            if not isinstance(responses[sub_key], dict):
+        if sub_key in source:
+            if not isinstance(source[sub_key], dict):
                 raise TypeError(
-                    f'Expected value at key "{sub_key}" to be a dictionary but found "{responses[sub_key]}".'
+                    f'Expected value at key "{sub_key}" to be a dictionary but found "{source[sub_key]}".'
                 )
         else:
             self.logger.debug(
-                "Creating sub_key %s subdictionary in %s", sub_key, responses
+                "Creating sub_key %s subdictionary in %s", sub_key, source
             )
-            responses[sub_key] = {}
+            source[sub_key] = {}
 
-        subdictionary = responses[sub_key]
+        subdictionary = source[sub_key]
 
         self.save_response(
             key=".".join(key_parts[1:]),
@@ -128,7 +124,7 @@ class State(StateProtocol):
     def get_response(
         self,
         key: str,
-        responses: Optional[Responses] = None,
+        responses: Optional[Any] = None,
     ) -> Optional[str]:
         """
         Gets the response at `key`.
@@ -140,24 +136,24 @@ class State(StateProtocol):
             Value if it exists, otherwise `None`.
         """
 
-        responses = self._responses if responses is None else responses
+        target = self._responses if responses is None else responses
 
         if "." not in key:
-            value = responses.get(key, None)
+            value = target.get(key, None)
             return None if not value else str(value)
 
         key_parts = key.split(".")
         sub_key = key_parts[0]
 
-        if sub_key in responses:
-            if not isinstance(responses[sub_key], dict):
+        if sub_key in target:
+            if not isinstance(target[sub_key], dict):
                 raise TypeError(
-                    f'Expected value at key "{sub_key}" to be a dictionary but found "{responses[sub_key]}".'
+                    f'Expected value at key "{sub_key}" to be a dictionary but found "{target[sub_key]}".'
                 )
         else:
             return None
 
-        subdictionary = responses[sub_key]
+        subdictionary = target[sub_key]
 
         return self.get_response(
             key=".".join(key_parts[1:]),
