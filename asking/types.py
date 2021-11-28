@@ -1,8 +1,6 @@
 from dataclasses import dataclass
 from typing import Any, Dict, List, TypedDict, Union
 
-StopReason = Any
-
 AnyDict = Dict[Any, Any]
 
 StageKey = str

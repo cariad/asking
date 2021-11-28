@@ -1,13 +1,24 @@
-from asking.types import StopReason
+from typing import Any
 
 
 class Stop(Exception):
-    def __init__(self, reason: StopReason) -> None:
+    """
+    Raised to stop script execution.
+
+    Arguments:
+        reason: Reason for stopping.
+    """
+
+    def __init__(self, reason: Any) -> None:
         self._reason = reason
         super().__init__(repr(reason))
 
     @property
-    def reason(self) -> StopReason:
+    def reason(self) -> Any:
+        """
+        Reason for stopping.
+        """
+
         return self._reason
 
 
