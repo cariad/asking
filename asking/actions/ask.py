@@ -2,6 +2,7 @@ import re
 from typing import Any, Dict, Iterable, List, Optional, Union
 
 from ansiscape import bright_green, heavy, italic
+from ansiscape.checks import should_emit_codes
 
 from asking.actions.action import Action, ActionResult
 from asking.exceptions import AskingError, NothingToDoError
@@ -94,6 +95,8 @@ class AskAction(Action, AskActionProtocol):
             bright_green(heavy(question), prompt).encoded
             if self.state.color
             else heavy(question).encoded + prompt
+            if should_emit_codes()
+            else question + prompt
         )
 
         self.state.out.write(text)
@@ -113,7 +116,9 @@ class AskAction(Action, AskActionProtocol):
             else:
                 response = direction
                 self.state.out.write(input_prompt)
-                self.state.out.write(italic(response).encoded)
+                self.state.out.write(
+                    italic(response).encoded if should_emit_codes() else response
+                )
                 self.state.out.write("\n")
 
             self.state.out.write("\n")

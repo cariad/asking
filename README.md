@@ -120,8 +120,8 @@ demo(script, directions={"user": {"name": "Bobby Pringles"}})
 <!--edition-exec as=markdown fence=backticks host=shell range=start-->
 
 ```text
-[1mName?[22m
-: [3mBobby Pringles[23m
+Name?
+: Bobby Pringles
 
 Stop reason: True
 Responses:
@@ -189,8 +189,8 @@ demo(
 <!--edition-exec as=markdown fence=backticks host=shell range=start-->
 
 ```text
-[1mName?[22m (default: Bobby Sprinkles)
-: [3mBobby Pringles[23m
+Name? (default: Bobby Sprinkles)
+: Bobby Pringles
 
 Stop reason: True
 Responses:
@@ -251,8 +251,8 @@ demo(script, directions={"cake": "n"})
 <!--edition-exec as=markdown fence=backticks host=shell range=start-->
 
 ```text
-[1mCake?[22m (y/n)
-: [3mn[23m
+Cake? (y/n)
+: n
 
 Stop reason: False
 Responses:
@@ -309,8 +309,8 @@ demo(script, directions={"cake": ""})
 <!--edition-exec as=markdown fence=backticks host=shell range=start-->
 
 ```text
-[1mCake?[22m (Y/n)
-: [3m[23m
+Cake? (Y/n)
+:
 
 Stop reason: True
 Responses:
@@ -378,8 +378,8 @@ ask(loader, state)
 ```text
 Today's date is 2021-11-30.
 
-[1mIs this correct?[22m (y/n)
-: [3my[23m
+Is this correct? (y/n)
+: y
 ```
 
 <!--edition-exec range=end-->
@@ -488,14 +488,14 @@ demo(
 <!--edition-exec as=markdown fence=backticks host=shell range=start-->
 
 ```text
-[1mCake?[22m (Y/n)
-: [3m[23m
+Cake? (Y/n)
+:
 
-[1mWhich cake?[22m
-: [3mBattenberg[23m
+Which cake?
+: Battenberg
 
-[1mTea?[22m (Y/n)
-: [3m[23m
+Tea? (Y/n)
+:
 
 Thank you for your order!
 
@@ -584,20 +584,20 @@ pprint(responses)
 <!--edition-exec as=markdown fence=backticks host=shell range=start-->
 
 ```text
-[4;1mAsking Demo[24;22m
+Asking Demo
 
 Welcome to the Asking demo!
 
-[1mAre you ready?[22m (y/N)
-: [3my[23m
+Are you ready? (y/N)
+: y
 
 Great! Let's get started!
 
-[1mWhat's your name?[22m
-: [3mBobby Pringles[23m
+What's your name?
+: Bobby Pringles
 
-[1mWhat's your favourite smell?[22m
-: [3mSulphur[23m
+What's your favourite smell?
+: Sulphur
 
 Here's your configuration:
 
@@ -609,8 +609,8 @@ Here's your configuration:
   }
 }
 
-[1mOkay to save?[22m (y/n)
-: [3my[23m
+Okay to save? (y/n)
+: y
 
 Stop reason: True
 {'ready': 'y',
