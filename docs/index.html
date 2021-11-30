@@ -41,6 +41,7 @@ h3,
 h4,
 h5,
 h6,
+img,
 ol,
 p,
 ul {
@@ -137,6 +138,18 @@ blockquote {
   padding-left: 1rem;
 }
 
+img,
+a > code,
+h2 > code,
+h3 > code,
+h4 > code,
+h5 > code,
+h6 > code,
+li > code,
+p > code {
+  border-radius: 0.3em;
+}
+
 a > code,
 h2 > code,
 h3 > code,
@@ -146,7 +159,6 @@ h6 > code,
 li > code,
 p > code {
   background: var(--accent);
-  border-radius: 0.3em;
 
   letter-spacing: 0.04em;
 
@@ -344,10 +356,17 @@ h2, h3, h4, h5, h6 {
   <body>
     <article>
         <h1>🙋 Asking</h1>
-<p><strong>Asking</strong> is a Python package that helps you ask questions and get answers from command line users.</p>
-<p><a href="https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi"><img alt="asciicast" src="https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi.svg"></a></p>
-<p><nav class="toc"><ol><li><a href="#-asking">🙋 Asking</a><ol><li><a href="#getting-started">Getting started</a><ol><li><a href="#installation">Installation</a></li><li><a href="#quick-start-example">Quick-start example</a></li></ol></li><li><a href="#how-asking-works">How Asking works</a></li><li><a href="#scripts">Scripts</a><ol><li><a href="#script-structure">Script structure</a></li><li><a href="#asking-for-a-value">Asking for a value</a></li><li><a href="#offering-the-previous-value-as-the-default">Offering the previous value as the default</a></li><li><a href="#offering-multiple-choice-responses">Offering multiple choice responses</a></li><li><a href="#offering-multiple-choice-responses-with-a-default">Offering multiple choice responses with a default</a></li><li><a href="#dynamic-values">Dynamic values</a></li><li><a href="#multiple-stages">Multiple stages</a></li></ol></li><li><a href="#usage">Usage</a><ol><li><a href="#loaders">Loaders</a></li><li><a href="#states">States</a></li><li><a href="#performing-a-script">Performing a script</a></li><li><a href="#unit-testing">Unit testing</a></li></ol></li><li><a href="#actions">Actions</a><ol><li><a href="#ask">ask</a></li><li><a href="#goto">goto</a></li><li><a href="#responses">responses</a></li><li><a href="#stop">stop</a></li><li><a href="#text">text</a></li><li><a href="#title">title</a></li></ol></li><li><a href="#project">Project</a><ol><li><a href="#contributing">Contributing</a></li><li><a href="#licence">Licence</a></li><li><a href="#author">Author</a></li><li><a href="#acknowledgements">Acknowledgements</a></li></ol></li></ol></li></ol></nav></p>
+<p><strong>Asking</strong> is a Python package for asking questions and getting answers.</p>
+<p><a href="https://asciinema.org/a/452525"><img alt="asciicast" src="https://asciinema.org/a/452525.png"></a></p>
+<p><nav class="toc"><ol><li><a href="#getting-started">Getting started</a><ol><li><a href="#how-does-asking-work">How does Asking work?</a></li><li><a href="#installation">Installation</a></li><li><a href="#quick-start-example">Quick-start example</a></li></ol></li><li><a href="#scripts">Scripts</a><ol><li><a href="#script-structure">Script structure</a></li><li><a href="#asking-for-a-value">Asking for a value</a></li><li><a href="#offering-the-previous-value-as-the-default">Offering the previous value as the default</a></li><li><a href="#offering-multiple-choice-responses">Offering multiple choice responses</a></li><li><a href="#offering-multiple-choice-responses-with-a-default">Offering multiple choice responses with a default</a></li><li><a href="#dynamic-values">Dynamic values</a></li><li><a href="#multiple-stages">Multiple stages</a></li></ol></li><li><a href="#usage">Usage</a><ol><li><a href="#loaders">Loaders</a></li><li><a href="#states">States</a></li><li><a href="#performing-a-script">Performing a script</a></li><li><a href="#running-non-interactively-and-unit-testing">Running non-interactively and unit testing</a></li></ol></li><li><a href="#actions">Actions</a><ol><li><a href="#ask">ask</a></li><li><a href="#goto">goto</a></li><li><a href="#responses">responses</a></li><li><a href="#stop">stop</a></li><li><a href="#text">text</a></li><li><a href="#title">title</a></li></ol></li><li><a href="#project">Project</a><ol><li><a href="#contributing">Contributing</a></li><li><a href="#licence">Licence</a></li><li><a href="#author">Author</a></li><li><a href="#acknowledgements">Acknowledgements</a></li></ol></li></ol></nav></p>
 <h2>Getting started<a id="getting-started"></a></h2>
+<h3>How does Asking work?<a id="how-does-asking-work"></a></h3>
+<p>In a nutshell, your Python script invokes Asking with two inputs:</p>
+<ol>
+<li>A script to follow.</li>
+<li>A dictionary to read default values out of and populate with new values.</li>
+</ol>
+<p>When the script ends, Asking returns some state to describe the success of the interaction, then the populated dictionary is yours to do with as you please.</p>
 <h3>Installation<a id="installation"></a></h3>
 <p>Asking requires <strong>Python 3.8</strong> or later.</p>
 <p>Install Asking via pip:</p>
@@ -360,13 +379,6 @@ h2, h3, h4, h5, h6 {
 </pre></div>
 
 <p>Note that this will perform the script, but will not load or save any responses. Performing a script via the CLI application is intended only for testing.</p>
-<h2>How Asking works<a id="how-asking-works"></a></h2>
-<p>In a nutshell, you run Asking with two inputs:</p>
-<ol>
-<li>A script to follow</li>
-<li>A dictionary to read default values out of and populate with new values</li>
-</ol>
-<p>When the script ends, Asking returns some state to describe the success of the interaction, then the populated dictionary is yours to do with as you please.</p>
 <h2>Scripts<a id="scripts"></a></h2>
 <h3>Script structure<a id="script-structure"></a></h3>
 <p>A <strong>script</strong> is essentially a dictionary of <strong>stages</strong>, and a <strong>stage</strong> is a list of <strong>actions</strong>.</p>
@@ -385,7 +397,35 @@ h2, h3, h4, h5, h6 {
 <p>This script asks the user for their name then exits.</p>
 <p>The script contains just one stage, named "start". The stage contains just one action: an "ask" action.</p>
 <p>The "ask" action contains a "question", which is printed to the screen. The "key" describes where in the dictionary the user's answer should be saved. "user.name" describes the "name" key of the "user" sub dictionary.</p>
-<p>The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the actions to invoke on that branch and, in this case, we "stop" and send "true" back to the host application.</p>
+<p>The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the actions to invoke on that branch and, in this case, we "stop" and send truthiness back to the host application.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">demo</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">start:</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Name?</span>
+<span class="s2">      key: user.name</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: "^.+$"</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: true</span>
+<span class="s2">"""</span>
+
+<span class="c1"># demo() runs non-interactively with preset directions and</span>
+<span class="c1"># is intended for demonstrating only. See the usage</span>
+<span class="c1"># documentation for implementation guidance.</span>
+
+<span class="n">demo</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="p">{</span><span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span><span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Bobby Pringles"</span><span class="p">}})</span>
+</pre></div>
+
+
+
+<style type="text/css">.weight-heavy { font-weight: bold; } .calligraphy-italic { font-style: italic; }</style>
+<pre class="nohighlight thtml"><code class="thtml-code"><span class="weight-heavy">Name?</span><br />: <span class="calligraphy-italic">Bobby Pringles</span><br /><br />Stop reason: True<br />Responses:<br />{<br />  "user": {<br />    "name": "Bobby Pringles"<br />  }<br />}<br /></code></pre>
+
+
+
 <h3>Offering the previous value as the default<a id="offering-the-previous-value-as-the-default"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
@@ -399,6 +439,47 @@ h2, h3, h4, h5, h6 {
 </pre></div>
 
 <p>This example is identical to the previous except "recall" is now truthy. Asking will read the dictionary's current "key" value and offer it as the default value.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">demo</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">start:</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Name?</span>
+<span class="s2">      key: user.name</span>
+<span class="s2">      recall: true</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: "^.+$"</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: true</span>
+<span class="s2">"""</span>
+
+<span class="c1"># demo() runs non-interactively with preset directions and</span>
+<span class="c1"># is intended for demonstrating only. See the usage</span>
+<span class="c1"># documentation for implementation guidance.</span>
+
+<span class="n">demo</span><span class="p">(</span>
+    <span class="n">script</span><span class="p">,</span>
+    <span class="n">responses</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Bobby Sprinkles"</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+    <span class="n">directions</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Bobby Pringles"</span><span class="p">,</span>
+        <span class="p">},</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+
+
+
+<style type="text/css">.weight-heavy { font-weight: bold; } .calligraphy-italic { font-style: italic; }</style>
+<pre class="nohighlight thtml"><code class="thtml-code"><span class="weight-heavy">Name?</span> (default: Bobby Sprinkles)<br />: <span class="calligraphy-italic">Bobby Pringles</span><br /><br />Stop reason: True<br />Responses:<br />{<br />  "user": {<br />    "name": "Bobby Pringles"<br />  }<br />}<br /></code></pre>
+
+
+
 <h3>Offering multiple choice responses<a id="offering-multiple-choice-responses"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
@@ -414,6 +495,37 @@ h2, h3, h4, h5, h6 {
 
 <p>In this example, the responses are plain strings rather than regular expressions. Asking will present all the available options.</p>
 <p>If the user enters "y" then Asking will stop and return truthiness to the host application. If the user enters "n" then Asking will stop and return falsiness.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">demo</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">start:</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Cake?</span>
+<span class="s2">      key: cake</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: y</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: true</span>
+<span class="s2">        - response: n</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: false</span>
+<span class="s2">"""</span>
+
+<span class="c1"># demo() runs non-interactively with preset directions and</span>
+<span class="c1"># is intended for demonstrating only. See the usage</span>
+<span class="c1"># documentation for implementation guidance.</span>
+
+<span class="n">demo</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="p">{</span><span class="s2">"cake"</span><span class="p">:</span> <span class="s2">"n"</span><span class="p">})</span>
+</pre></div>
+
+
+
+<style type="text/css">.weight-heavy { font-weight: bold; } .calligraphy-italic { font-style: italic; }</style>
+<pre class="nohighlight thtml"><code class="thtml-code"><span class="weight-heavy">Cake?</span> (y/n)<br />: <span class="calligraphy-italic">n</span><br /><br />Stop reason: False<br />Responses:<br />{<br />  "cake": "n"<br />}<br /></code></pre>
+
+
+
 <h3>Offering multiple choice responses with a default<a id="offering-multiple-choice-responses-with-a-default"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
@@ -428,6 +540,37 @@ h2, h3, h4, h5, h6 {
 </pre></div>
 
 <p>This is identical to the previous example, except now the first checked response is a list of options rather than a single string. Asking will use the first branch if the user hits enter without entering a value.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">demo</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">start:</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Cake?</span>
+<span class="s2">      key: cake</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: [y, ""]</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: true</span>
+<span class="s2">        - response: n</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: false</span>
+<span class="s2">"""</span>
+
+<span class="c1"># demo() runs non-interactively with preset directions and</span>
+<span class="c1"># is intended for demonstrating only. See the usage</span>
+<span class="c1"># documentation for implementation guidance.</span>
+
+<span class="n">demo</span><span class="p">(</span><span class="n">script</span><span class="p">,</span> <span class="n">directions</span><span class="o">=</span><span class="p">{</span><span class="s2">"cake"</span><span class="p">:</span> <span class="s2">""</span><span class="p">})</span>
+</pre></div>
+
+
+
+<style type="text/css">.weight-heavy { font-weight: bold; }</style>
+<pre class="nohighlight thtml"><code class="thtml-code"><span class="weight-heavy">Cake?</span> (Y/n)<br />: <br /><br />Stop reason: True<br />Responses:<br />{<br />  "cake": ""<br />}<br /></code></pre>
+
+
+
 <h3>Dynamic values<a id="dynamic-values"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">text</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Today's date is {today}.</span>
@@ -443,29 +586,51 @@ h2, h3, h4, h5, h6 {
 </pre></div>
 
 <p>To set some text value at runtime, specify the key in braces and include the value in the state when performing the script:</p>
-<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">ask</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">YamlResourceLoader</span>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">ask</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">YamlStringLoader</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">date</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Dict</span>
 
 
-<span class="n">loader</span> <span class="o">=</span> <span class="n">YamlResourceLoader</span><span class="p">(</span><span class="n">__package__</span><span class="p">,</span> <span class="s2">"setup.asking.yml"</span><span class="p">)</span>
-
-<span class="n">responses</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">YamlStringLoader</span><span class="p">(</span><span class="s2">"""</span>
+<span class="s2">start:</span>
+<span class="s2">  - text: Today's date is </span><span class="si">{today}</span><span class="s2">.</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Is this correct?</span>
+<span class="s2">      key: correct</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: y</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: true</span>
+<span class="s2">        - response: n</span>
+<span class="s2">          then:</span>
+<span class="s2">            - stop: false</span>
+<span class="s2">"""</span><span class="p">)</span>
 
 <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span>
-    <span class="n">responses</span><span class="p">,</span>
+    <span class="p">{},</span>
+    <span class="n">color</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">directions</span><span class="o">=</span><span class="p">{</span>
+      <span class="s2">"correct"</span><span class="p">:</span> <span class="s2">"y"</span><span class="p">,</span>
+    <span class="p">},</span>
     <span class="n">references</span><span class="o">=</span><span class="p">{</span>
         <span class="s2">"today"</span><span class="p">:</span> <span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">(),</span>
     <span class="p">},</span>
 <span class="p">)</span>
 
-<span class="n">stop_reason</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+<span class="n">ask</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 </pre></div>
+
+
+
+<style type="text/css">.weight-heavy { font-weight: bold; } .calligraphy-italic { font-style: italic; }</style>
+<pre class="nohighlight thtml"><code class="thtml-code">Today's date is 2021-11-30.<br /><br /><span class="weight-heavy">Is this correct?</span> (y/n)<br />: <span class="calligraphy-italic">y</span><br /></code></pre>
+
+
 
 <h3>Multiple stages<a id="multiple-stages"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">start</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
       <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Cake?</span>
+      <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cake</span>
       <span class="nt">branches</span><span class="p">:</span>
         <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="p p-Indicator">[</span><span class="nv">y</span><span class="p p-Indicator">,</span> <span class="s">""</span><span class="p p-Indicator">]</span>
           <span class="nt">then</span><span class="p">:</span>
@@ -477,7 +642,7 @@ h2, h3, h4, h5, h6 {
 <span class="nt">cake</span><span class="p">:</span>
   <span class="p p-Indicator">-</span> <span class="nt">ask</span><span class="p">:</span>
       <span class="nt">question</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">Which cake?</span>
-      <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">cake</span>
+      <span class="nt">key</span><span class="p">:</span> <span class="l l-Scalar l-Scalar-Plain">which_cake</span>
       <span class="nt">branches</span><span class="p">:</span>
         <span class="p p-Indicator">-</span> <span class="nt">response</span><span class="p">:</span> <span class="s">"^.+$"</span>
           <span class="nt">then</span><span class="p">:</span>
@@ -501,10 +666,78 @@ h2, h3, h4, h5, h6 {
 </pre></div>
 
 <p>This example presents multiple questions. If the user wants cake then they're asked which one. If they don't want cake, or if they answered which cake they want, then they're asked if they want tea. Either way, the script ends with a thank-you message then stops successfully.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">demo</span>
+
+<span class="n">script</span> <span class="o">=</span> <span class="s2">"""</span>
+<span class="s2">start:</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Cake?</span>
+<span class="s2">      key: cake</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: [y, ""]</span>
+<span class="s2">          then:</span>
+<span class="s2">            - goto: cake</span>
+<span class="s2">        - response: n</span>
+<span class="s2">          then:</span>
+<span class="s2">            - goto: tea</span>
+
+<span class="s2">cake:</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Which cake?</span>
+<span class="s2">      key: which_cake</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: "^.+$"</span>
+<span class="s2">          then:</span>
+<span class="s2">            - goto: tea</span>
+
+<span class="s2">tea:</span>
+<span class="s2">  - ask:</span>
+<span class="s2">      question: Tea?</span>
+<span class="s2">      key: tea</span>
+<span class="s2">      branches:</span>
+<span class="s2">        - response: [y, ""]</span>
+<span class="s2">          then:</span>
+<span class="s2">            - goto: final</span>
+<span class="s2">        - response: n</span>
+<span class="s2">          then:</span>
+<span class="s2">            - goto: final</span>
+
+<span class="s2">final:</span>
+<span class="s2">  - text: Thank you for your order!</span>
+<span class="s2">  - stop: true</span>
+<span class="s2">"""</span>
+
+<span class="c1"># demo() runs non-interactively with preset directions and</span>
+<span class="c1"># is intended for demonstrating only. See the usage</span>
+<span class="c1"># documentation for implementation guidance.</span>
+
+<span class="n">demo</span><span class="p">(</span>
+    <span class="n">script</span><span class="p">,</span>
+    <span class="n">directions</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"cake"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="s2">"which_cake"</span><span class="p">:</span> <span class="s2">"Battenberg"</span><span class="p">,</span>
+        <span class="s2">"tea"</span><span class="p">:</span> <span class="s2">""</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+</pre></div>
+
+
+
+<style type="text/css">.weight-heavy { font-weight: bold; } .calligraphy-italic { font-style: italic; }</style>
+<pre class="nohighlight thtml"><code class="thtml-code"><span class="weight-heavy">Cake?</span> (Y/n)<br />: <br /><br /><span class="weight-heavy">Which cake?</span><br />: <span class="calligraphy-italic">Battenberg</span><br /><br /><span class="weight-heavy">Tea?</span> (Y/n)<br />: <br /><br />Thank you for your order!<br /><br />Stop reason: True<br />Responses:<br />{<br />  "cake": "",<br />  "tea": "",<br />  "which_cake": "Battenberg"<br />}<br /></code></pre>
+
+
+
 <h2>Usage<a id="usage"></a></h2>
 <h3>Loaders<a id="loaders"></a></h3>
-<p>Asking will load your script from a file or as a package resource.</p>
-<p>To load from a YAML file, create a <code>FileLoader</code>. To load from a package resource, create a <code>YamlResourceLoader</code>.</p>
+<p>Asking offers the following options for loading a YAML script:</p>
+<ul>
+<li><code>DictionaryLoader</code> loads any Python dictionary.</li>
+<li><code>FileLoader</code> loads a YAML file.</li>
+<li><code>YamlResourceLoader</code> loads a YAML package resource.</li>
+<li><code>YamlStringLoader</code> loads a YAML string.</li>
+</ul>
 <h3>States<a id="states"></a></h3>
 <p>A <code>State</code> instance must be made available to your script. This describes the dictionary to read/write and any dynamic values.</p>
 <h3>Performing a script<a id="performing-a-script"></a></h3>
@@ -518,17 +751,51 @@ h2, h3, h4, h5, h6 {
 
 <span class="n">responses</span> <span class="o">=</span> <span class="p">{}</span>
 
-<span class="n">loader</span> <span class="o">=</span> <span class="n">YamlResourceLoader</span><span class="p">(</span><span class="n">__package__</span><span class="p">,</span> <span class="s2">"setup.asking.yml"</span><span class="p">)</span>
+<span class="n">loader</span> <span class="o">=</span> <span class="n">YamlResourceLoader</span><span class="p">(</span><span class="n">__package__</span><span class="p">,</span> <span class="s2">"sample.asking.yml"</span><span class="p">)</span>
 <span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
 
 <span class="n">stop_reason</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
 </pre></div>
 
 <p>When <code>ask()</code> is complete, it will return whatever value the performance's "stop" action returned, and the responses dictionary will be populated with the user's answers.</p>
-<h3>Unit testing<a id="unit-testing"></a></h3>
+<h3>Running non-interactively and unit testing<a id="running-non-interactively-and-unit-testing"></a></h3>
 <p>By default, Asking will -- naturally -- ask users for input.</p>
 <p>To test your script without human interaction, you can pass directions into the state. This is a dictionary containing the value to respond with for each question key.</p>
-<p>Note that this is a flat dictionary, so keys should contain periods and not sub dictionaries.</p>
+<p>For example:</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asking</span> <span class="kn">import</span> <span class="n">ask</span><span class="p">,</span> <span class="n">State</span><span class="p">,</span> <span class="n">FileLoader</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+
+<span class="n">responses</span> <span class="o">=</span> <span class="p">{}</span>
+
+<span class="n">loader</span> <span class="o">=</span> <span class="n">FileLoader</span><span class="p">(</span><span class="s2">"sample.asking.yml"</span><span class="p">)</span>
+<span class="n">state</span> <span class="o">=</span> <span class="n">State</span><span class="p">(</span>
+    <span class="n">responses</span><span class="p">,</span>
+    <span class="n">color</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">directions</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">"ready"</span><span class="p">:</span> <span class="s2">"y"</span><span class="p">,</span>
+        <span class="s2">"user"</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"Bobby Pringles"</span><span class="p">,</span>
+            <span class="s2">"smell"</span><span class="p">:</span> <span class="s2">"Sulphur"</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="s2">"save"</span><span class="p">:</span> <span class="s2">"y"</span><span class="p">,</span>
+    <span class="p">},</span>
+<span class="p">)</span>
+
+<span class="n">stop_reason</span> <span class="o">=</span> <span class="n">ask</span><span class="p">(</span><span class="n">loader</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">"Stop reason:"</span><span class="p">,</span> <span class="n">stop_reason</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">responses</span><span class="p">)</span>
+</pre></div>
+
+
+
+<style type="text/css">.underline-single { text-decoration: solid underline; text-underline-offset: 0.1rem; } .weight-heavy { font-weight: bold; } .calligraphy-italic { font-style: italic; }</style>
+<pre class="nohighlight thtml"><code class="thtml-code"><span class="underline-single weight-heavy">Asking Demo</span><br /><br />Welcome to the Asking demo!<br /><br /><span class="weight-heavy">Are you ready?</span> (y/N)<br />: <span class="calligraphy-italic">y</span><br /><br />Great! Let's get started!<br /><br /><span class="weight-heavy">What's your name?</span><br />: <span class="calligraphy-italic">Bobby Pringles</span><br /><br /><span class="weight-heavy">What's your favourite smell?</span><br />: <span class="calligraphy-italic">Sulphur</span><br /><br />Here's your configuration:<br /><br />{<br />  "ready": "y",<br />  "user": {<br />    "name": "Bobby Pringles",<br />    "smell": "Sulphur"<br />  }<br />}<br /><br /><span class="weight-heavy">Okay to save?</span> (y/n)<br />: <span class="calligraphy-italic">y</span><br /><br />Stop reason: True<br />{'ready': 'y',<br /> 'save': 'y',<br /> 'user': {'name': 'Bobby Pringles', 'smell': 'Sulphur'}}<br /></code></pre>
+
+
+
+<p>These directions also allow you to invoke Asking in unit tests, and assert on stop reasons and dictionary values for given inputs.</p>
 <h2>Actions<a id="actions"></a></h2>
 <h3>ask<a id="ask"></a></h3>
 <div class="highlight"><pre><span></span><span class="nt">ask</span><span class="p">:</span>
@@ -587,6 +854,7 @@ h2, h3, h4, h5, h6 {
 <ul>
 <li>❤️ to <a href="https://github.com/jonathaneunice/ansiwrap">jonathaneunice/ansiwrap</a> for neatly wrapping strings containing ANSI escape codes.</li>
 <li>Command line support by <a href="https://github.com/cariad/cline">Cline</a>.</li>
+<li>YAML support by <a href="https://pyyaml.org/">PyYAML</a>.</li>
 <li>This documentation was pressed by <a href="https://github.com/cariad/edition">Edition</a>.</li>
 </ul>
     </article>

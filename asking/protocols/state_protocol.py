@@ -6,10 +6,16 @@ from asking.types import StageKey
 
 class StateProtocol(Protocol):
     @property
-    def directions(self) -> Dict[str, str]:
+    def color(self) -> bool:
         """
-        Gets directions to apply when running non-interactively.
+        Emit colour.
         """
+
+    # @property
+    # def directions(self) -> Optional[Any]:
+    #     """
+    #     Preset responses to inject when running non-interactively.
+    #     """
 
     @property
     def logger(self) -> Logger:
@@ -36,13 +42,24 @@ class StateProtocol(Protocol):
 
     def get_response(self, key: str) -> Optional[str]:
         """
-        Gets the response at `key`.
+        Gets a response value.
 
         Arguments:
-            key: Response path. Use "." as the path separator.
+            key: Key.
 
         Returns:
-            Value if it exists, otherwise `None`.
+            Value if it exists, else `None`.
+        """
+
+    def get_direction(self, key: str) -> Optional[str]:
+        """
+        Gets a direction.
+
+        Arguments:
+            key: Key.
+
+        Returns:
+            Direction if it exists, else `None`.
         """
 
     def save_response(self, key: str, value: str) -> None:

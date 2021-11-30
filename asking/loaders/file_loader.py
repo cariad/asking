@@ -1,6 +1,6 @@
 from pathlib import Path
 from re import IGNORECASE, match
-from typing import cast
+from typing import Union, cast
 
 from yaml import safe_load
 
@@ -9,9 +9,9 @@ from asking.types import ScriptDict
 
 
 class FileLoader(Loader):
-    def __init__(self, path: Path) -> None:
+    def __init__(self, path: Union[Path, str]) -> None:
         super().__init__()
-        self._path = path
+        self._path = path if isinstance(path, Path) else Path(path)
 
     def load(self) -> ScriptDict:
         is_yaml = match(r"^.*\.y(a?)ml$", self._path.name, IGNORECASE)

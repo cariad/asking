@@ -109,35 +109,6 @@ def test_natch_empty() -> None:
     assert action.perform() == ActionResult(next="foo")
 
 
-def test_direction__no_key() -> None:
-    state = State({})
-    action = AskAction(
-        action={
-            "ask": {
-                "question": "?",
-            }
-        },
-        state=state,
-    )
-
-    assert action.direction is None
-
-
-def test_direction__no_direction() -> None:
-    state = State({})
-    action = AskAction(
-        action={
-            "ask": {
-                "question": "?",
-                "key": "k",
-            }
-        },
-        state=state,
-    )
-
-    assert action.direction is None
-
-
 def test__uses_previous_value() -> None:
     responses = {"k": "war"}
     state = State(responses, directions={"k": ""})

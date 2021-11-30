@@ -32,5 +32,4 @@ class Script:
                 next = stage.perform()
                 stage = self._get_stage(next)
         except Stop as ex:
-            self._state.out.write("\n")
             return ex.reason

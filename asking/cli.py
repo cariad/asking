@@ -18,6 +18,13 @@ class AskingCLI(ArgumentParserCli):
         )
 
         parser.add_argument("path", help="path", nargs="?")
+
+        parser.add_argument(
+            "--no-color",
+            help="disables colourful output",
+            action="store_true",
+        )
+
         parser.add_argument(
             "--version",
             help="show version and exit",
