@@ -13,9 +13,10 @@ class ResponsesAction(Action):
         except KeyError:
             raise NothingToDoError()
 
-        dumped = dumps(self.state.responses, indent=2, sort_keys=True)
+        s = dumps(self.state.responses, indent=2, sort_keys=True)
+        dumped = bright_yellow(s).encoded if self.state.color else s
 
-        self.state.out.write("\n")
-        self.state.out.write(bright_yellow(dumped).encoded)
-        self.state.out.write("\n")
+        self.state.out.write(dumped)
+        self.state.out.write("\n\n")
+
         return ActionResult(next=None)

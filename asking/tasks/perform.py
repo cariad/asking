@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from json import dumps
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 from cline import CommandLineArguments, Task
 
@@ -13,18 +13,28 @@ from asking.state import State
 @dataclass
 class PerformTaskArguments:
     path: Path
-    directions: Optional[Dict[str, str]] = None
+    color: bool = True
+    directions: Optional[Any] = None
     responses: Optional[Any] = None
 
 
 class PerformTask(Task[PerformTaskArguments]):
     @classmethod
     def make_args(cls, args: CommandLineArguments) -> PerformTaskArguments:
-        return PerformTaskArguments(path=Path(args.get_string("path")))
+        return PerformTaskArguments(
+            color=not args.get_bool("no_color", False),
+            path=Path(args.get_string("path")),
+        )
 
     def invoke(self) -> int:
         responses: Any = {}
-        state = State(responses, directions=self.args.directions)
+
+        state = State(
+            responses,
+            color=self.args.color,
+            directions=self.args.directions,
+        )
+
         script = Script(FileLoader(self.args.path), state)
         stop_reason = script.start()
 

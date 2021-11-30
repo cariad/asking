@@ -19,8 +19,10 @@ def test_invoke() -> None:
     args = PerformTaskArguments(
         directions={
             "ready": "y",
-            "user.name": "bobby",
-            "user.smell": "star wars",
+            "user": {
+                "name": "bobby",
+                "smell": "star wars",
+            },
             "save": "y",
         },
         path=Path(".") / "sample.asking.yml",

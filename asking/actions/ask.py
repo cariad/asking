@@ -1,7 +1,7 @@
 import re
 from typing import Any, Dict, Iterable, List, Optional, Union
 
-from ansiscape import bright_green, heavy
+from ansiscape import bright_green, heavy, italic
 
 from asking.actions.action import Action, ActionResult
 from asking.exceptions import AskingError, NothingToDoError
@@ -82,21 +82,6 @@ class AskAction(Action, AskActionProtocol):
         for branch_dict in branches:
             yield Branch(branch=branch_dict, state=self.state)
 
-    @property
-    def direction(self) -> Optional[str]:
-        if not self.key:
-            self.state.logger.debug("ask has no direction because has no key")
-            return None
-
-        direction = self.state.directions.get(self.key, None)
-
-        if direction is None:
-            self.state.logger.debug('ask has no direction for key "%s"', self.key)
-        else:
-            self.state.logger.debug("ask has direction: %s", direction)
-
-        return direction
-
     def perform(self) -> ActionResult:
         question = self.get_string("question", source=self.ask, wrap=False)
 
@@ -105,20 +90,33 @@ class AskAction(Action, AskActionProtocol):
         if prompt:
             prompt = f" {prompt}"
 
-        text = bright_green(heavy(question), prompt).encoded
+        text = (
+            bright_green(heavy(question), prompt).encoded
+            if self.state.color
+            else heavy(question).encoded + prompt
+        )
 
-        self.state.out.write("\n")
         self.state.out.write(text)
         self.state.out.write("\n")
 
         next: Optional[str] = None
 
+        bp = ": "
+        input_prompt = bright_green(bp).encoded if self.state.color else bp
+
+        direction = self.state.get_direction(self.key) if self.key else None
+
         while next is None:
-            response = (
-                input(bright_green(": ").encoded)
-                if self.direction is None
-                else self.direction
-            )
+            if direction is None:
+                # This isn't unit testable:
+                response = input(input_prompt)  # pragma: no cover
+            else:
+                response = direction
+                self.state.out.write(input_prompt)
+                self.state.out.write(italic(response).encoded)
+                self.state.out.write("\n")
+
+            self.state.out.write("\n")
 
             if self.recall and self.key and not response:
                 response = self.state.get_response(self.key) or ""

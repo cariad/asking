@@ -1,4 +1,4 @@
-from ansiscape import double_underline, heavy
+from ansiscape import heavy, single_underline
 
 from asking.actions.action import Action, ActionResult
 from asking.exceptions import NothingToDoError
@@ -11,7 +11,6 @@ class TitleAction(Action):
         except KeyError:
             raise NothingToDoError()
 
-        self.state.out.write("\n")
-        self.state.out.write(double_underline(heavy(title)).encoded)
-        self.state.out.write("\n")
+        self.state.out.write(single_underline(heavy(title)).encoded)
+        self.state.out.write("\n\n")
         return ActionResult(next=None)

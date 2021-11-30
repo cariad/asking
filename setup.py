@@ -33,7 +33,7 @@ setup(
     author="Cariad Eccleston",
     author_email="cariad@cariad.earth",
     classifiers=classifiers,
-    description="Ask questions and get answers",
+    description="Asking questions and getting answers",
     entry_points={
         "console_scripts": [
             "asking=asking.__main__:entry",

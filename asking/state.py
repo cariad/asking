@@ -15,6 +15,7 @@ class State(StateProtocol):
 
     Arguments:
         responses:  Dictionary of previous and updated responses.
+        color:      Emit colour.
         directions: User responses to give during testing.
         references: Values referencable during the script.
         out:        Output writer (defaults to stdout).
@@ -23,18 +24,24 @@ class State(StateProtocol):
     def __init__(
         self,
         responses: Any,
-        directions: Optional[Dict[str, str]] = None,
+        color: bool = True,
+        directions: Optional[Any] = None,
         references: Optional[Dict[str, str]] = None,
         out: Optional[IO[str]] = None,
     ) -> None:
+        self._color = color
         self._directions = directions or {}
         self._out = out or stdout
         self._references = references or {}
         self._responses = responses
 
     @property
-    def directions(self) -> Dict[str, str]:
-        return self._directions
+    def color(self) -> bool:
+        """
+        Emit colour.
+        """
+
+        return self._color
 
     @property
     def logger(self) -> Logger:
@@ -129,10 +136,37 @@ class State(StateProtocol):
             responses=subdictionary,
         )
 
-    def get_response(
+    def get_response(self, key: str) -> Optional[str]:
+        """
+        Gets a response value.
+
+        Arguments:
+            key: Key.
+
+        Returns:
+            Value if it exists, else `None`.
+        """
+
+        return self._get_value(key=key, source=self._responses)
+
+    def get_direction(self, key: str) -> Optional[str]:
+        """
+        Gets a direction.
+
+        Arguments:
+            key: Key.
+
+        Returns:
+            Direction if it exists, else `None`.
+        """
+
+        self.logger.debug("Looking up direction: %s", key)
+        return self._get_value(key=key, source=self._directions)
+
+    def _get_value(
         self,
         key: str,
-        responses: Optional[Any] = None,
+        source: Any,
     ) -> Optional[str]:
         """
         Gets the response at `key`.
@@ -144,26 +178,24 @@ class State(StateProtocol):
             Value if it exists, otherwise `None`.
         """
 
-        target = self._responses if responses is None else responses
-
         if "." not in key:
-            value = target.get(key, None)
-            return None if not value else str(value)
+            value = source.get(key, None)
+            return None if value is None else str(value)
 
         key_parts = key.split(".")
         sub_key = key_parts[0]
 
-        if sub_key in target:
-            if not isinstance(target[sub_key], dict):
+        if sub_key in source:
+            if not isinstance(source[sub_key], dict):
                 raise TypeError(
-                    f'Expected value at key "{sub_key}" to be a dictionary but found "{target[sub_key]}".'
+                    f'Expected value at key "{sub_key}" to be a dictionary but found "{source[sub_key]}".'
                 )
         else:
             return None
 
-        subdictionary = target[sub_key]
+        subdictionary = source[sub_key]
 
-        return self.get_response(
+        return self._get_value(
             key=".".join(key_parts[1:]),
-            responses=subdictionary,
+            source=subdictionary,
         )
