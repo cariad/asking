@@ -1,41 +1,49 @@
 # 🙋 Asking
 
-**Asking** is a Python package that helps you ask questions and get answers from command line users.
+**Asking** is a Python package for asking questions and getting answers.
 
-[![asciicast](https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi.svg)](https://asciinema.org/a/oJHcctFXKkwoLorefCi0JfNDi)
+[![asciicast](https://asciinema.org/a/452525.svg)](https://asciinema.org/a/452525)
 
-- [🙋 Asking](#-asking)
-  - [Getting started](#getting-started)
-    - [Installation](#installation)
-    - [Quick-start example](#quick-start-example)
-  - [How Asking works](#how-asking-works)
-  - [Scripts](#scripts)
-    - [Script structure](#script-structure)
-    - [Asking for a value](#asking-for-a-value)
-    - [Offering the previous value as the default](#offering-the-previous-value-as-the-default)
-    - [Offering multiple choice responses](#offering-multiple-choice-responses)
-    - [Offering multiple choice responses with a default](#offering-multiple-choice-responses-with-a-default)
-    - [Dynamic values](#dynamic-values)
-    - [Multiple stages](#multiple-stages)
-  - [Usage](#usage)
-    - [Loaders](#loaders)
-    - [States](#states)
-    - [Performing a script](#performing-a-script)
-    - [Unit testing](#unit-testing)
-  - [Actions](#actions)
-    - [ask](#ask)
-    - [goto](#goto)
-    - [responses](#responses)
-    - [stop](#stop)
-    - [text](#text)
-    - [title](#title)
-  - [Project](#project)
-    - [Contributing](#contributing)
-    - [Licence](#licence)
-    - [Author](#author)
-    - [Acknowledgements](#acknowledgements)
+- [Getting started](#getting-started)
+  - [How does Asking work?](#how-does-asking-work)
+  - [Installation](#installation)
+  - [Quick-start example](#quick-start-example)
+- [Scripts](#scripts)
+  - [Script structure](#script-structure)
+  - [Asking for a value](#asking-for-a-value)
+  - [Offering the previous value as the default](#offering-the-previous-value-as-the-default)
+  - [Offering multiple choice responses](#offering-multiple-choice-responses)
+  - [Offering multiple choice responses with a default](#offering-multiple-choice-responses-with-a-default)
+  - [Dynamic values](#dynamic-values)
+  - [Multiple stages](#multiple-stages)
+- [Usage](#usage)
+  - [Loaders](#loaders)
+  - [States](#states)
+  - [Performing a script](#performing-a-script)
+  - [Running non-interactively and unit testing](#running-non-interactively-and-unit-testing)
+- [Actions](#actions)
+  - [ask](#ask)
+  - [goto](#goto)
+  - [responses](#responses)
+  - [stop](#stop)
+  - [text](#text)
+  - [title](#title)
+- [Project](#project)
+  - [Contributing](#contributing)
+  - [Licence](#licence)
+  - [Author](#author)
+  - [Acknowledgements](#acknowledgements)
 
 ## Getting started
+
+### How does Asking work?
+
+In a nutshell, your Python script invokes Asking with two inputs:
+
+1. A script to follow.
+1. A dictionary to read default values out of and populate with new values.
+
+When the script ends, Asking returns some state to describe the success of the interaction, then the populated dictionary is yours to do with as you please.
 
 ### Installation
 
@@ -56,15 +64,6 @@ asking sample.asking.yaml
 ```
 
 Note that this will perform the script, but will not load or save any responses. Performing a script via the CLI application is intended only for testing.
-
-## How Asking works
-
-In a nutshell, you run Asking with two inputs:
-
-1. A script to follow
-1. A dictionary to read default values out of and populate with new values
-
-When the script ends, Asking returns some state to describe the success of the interaction, then the populated dictionary is yours to do with as you please.
 
 ## Scripts
 
@@ -93,7 +92,47 @@ The script contains just one stage, named "start". The stage contains just one a
 
 The "ask" action contains a "question", which is printed to the screen. The "key" describes where in the dictionary the user's answer should be saved. "user.name" describes the "name" key of the "user" sub dictionary.
 
-The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the actions to invoke on that branch and, in this case, we "stop" and send "true" back to the host application.
+The "branches" describe how to react to the user's answer. "response" is a regular expression. Asking checks the user's answer against each expression in order, and uses the first one that matches. In this case, there's only one choice. "then" describes the actions to invoke on that branch and, in this case, we "stop" and send truthiness back to the host application.
+
+For example:
+
+```python
+from asking import demo
+
+script = """
+start:
+  - ask:
+      question: Name?
+      key: user.name
+      branches:
+        - response: "^.+$"
+          then:
+            - stop: true
+"""
+
+# demo() runs non-interactively with preset directions and
+# is intended for demonstrating only. See the usage
+# documentation for implementation guidance.
+
+demo(script, directions={"user": {"name": "Bobby Pringles"}})
+```
+
+<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+
+```text
+[1mName?[22m
+: [3mBobby Pringles[23m
+
+Stop reason: True
+Responses:
+{
+  "user": {
+    "name": "Bobby Pringles"
+  }
+}
+```
+
+<!--edition-exec range=end-->
 
 ### Offering the previous value as the default
 
@@ -110,6 +149,59 @@ start:
 ```
 
 This example is identical to the previous except "recall" is now truthy. Asking will read the dictionary's current "key" value and offer it as the default value.
+
+For example:
+
+```python
+from asking import demo
+
+script = """
+start:
+  - ask:
+      question: Name?
+      key: user.name
+      recall: true
+      branches:
+        - response: "^.+$"
+          then:
+            - stop: true
+"""
+
+# demo() runs non-interactively with preset directions and
+# is intended for demonstrating only. See the usage
+# documentation for implementation guidance.
+
+demo(
+    script,
+    responses={
+        "user": {
+            "name": "Bobby Sprinkles",
+        },
+    },
+    directions={
+        "user": {
+            "name": "Bobby Pringles",
+        },
+    },
+)
+```
+
+<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+
+```text
+[1mName?[22m (default: Bobby Sprinkles)
+: [3mBobby Pringles[23m
+
+Stop reason: True
+Responses:
+{
+  "user": {
+    "name": "Bobby Pringles"
+  }
+}
+```
+
+<!--edition-exec range=end-->
 
 ### Offering multiple choice responses
 
@@ -130,6 +222,47 @@ In this example, the responses are plain strings rather than regular expressions
 
 If the user enters "y" then Asking will stop and return truthiness to the host application. If the user enters "n" then Asking will stop and return falsiness.
 
+For example:
+
+```python
+from asking import demo
+
+script = """
+start:
+  - ask:
+      question: Cake?
+      key: cake
+      branches:
+        - response: y
+          then:
+            - stop: true
+        - response: n
+          then:
+            - stop: false
+"""
+
+# demo() runs non-interactively with preset directions and
+# is intended for demonstrating only. See the usage
+# documentation for implementation guidance.
+
+demo(script, directions={"cake": "n"})
+```
+
+<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+
+```text
+[1mCake?[22m (y/n)
+: [3mn[23m
+
+Stop reason: False
+Responses:
+{
+  "cake": "n"
+}
+```
+
+<!--edition-exec range=end-->
+
 ### Offering multiple choice responses with a default
 
 ```yaml
@@ -146,6 +279,47 @@ start:
 ```
 
 This is identical to the previous example, except now the first checked response is a list of options rather than a single string. Asking will use the first branch if the user hits enter without entering a value.
+
+For example:
+
+```python
+from asking import demo
+
+script = """
+start:
+  - ask:
+      question: Cake?
+      key: cake
+      branches:
+        - response: [y, ""]
+          then:
+            - stop: true
+        - response: n
+          then:
+            - stop: false
+"""
+
+# demo() runs non-interactively with preset directions and
+# is intended for demonstrating only. See the usage
+# documentation for implementation guidance.
+
+demo(script, directions={"cake": ""})
+```
+
+<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+
+```text
+[1mCake?[22m (Y/n)
+: [3m[23m
+
+Stop reason: True
+Responses:
+{
+  "cake": ""
+}
+```
+
+<!--edition-exec range=end-->
 
 ### Dynamic values
 
@@ -166,24 +340,49 @@ start:
 To set some text value at runtime, specify the key in braces and include the value in the state when performing the script:
 
 ```python
-from asking import ask, State, YamlResourceLoader
+from asking import ask, State, YamlStringLoader
 from datetime import date
-from typing import Dict
 
 
-loader = YamlResourceLoader(__package__, "setup.asking.yml")
-
-responses: Dict[str, str] = {}
+loader = YamlStringLoader("""
+start:
+  - text: Today's date is {today}.
+  - ask:
+      question: Is this correct?
+      key: correct
+      branches:
+        - response: y
+          then:
+            - stop: true
+        - response: n
+          then:
+            - stop: false
+""")
 
 state = State(
-    responses,
+    {},
+    color=False,
+    directions={
+      "correct": "y",
+    },
     references={
         "today": date.today(),
     },
 )
 
-stop_reason = ask(loader, state)
+ask(loader, state)
 ```
+
+<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+
+```text
+Today's date is 2021-11-30.
+
+[1mIs this correct?[22m (y/n)
+: [3my[23m
+```
+
+<!--edition-exec range=end-->
 
 ### Multiple stages
 
@@ -191,6 +390,7 @@ stop_reason = ask(loader, state)
 start:
   - ask:
       question: Cake?
+      key: cake
       branches:
         - response: [y, ""]
           then:
@@ -202,7 +402,7 @@ start:
 cake:
   - ask:
       question: Which cake?
-      key: cake
+      key: which_cake
       branches:
         - response: "^.+$"
           then:
@@ -227,13 +427,99 @@ final:
 
 This example presents multiple questions. If the user wants cake then they're asked which one. If they don't want cake, or if they answered which cake they want, then they're asked if they want tea. Either way, the script ends with a thank-you message then stops successfully.
 
+For example:
+
+```python
+from asking import demo
+
+script = """
+start:
+  - ask:
+      question: Cake?
+      key: cake
+      branches:
+        - response: [y, ""]
+          then:
+            - goto: cake
+        - response: n
+          then:
+            - goto: tea
+
+cake:
+  - ask:
+      question: Which cake?
+      key: which_cake
+      branches:
+        - response: "^.+$"
+          then:
+            - goto: tea
+
+tea:
+  - ask:
+      question: Tea?
+      key: tea
+      branches:
+        - response: [y, ""]
+          then:
+            - goto: final
+        - response: n
+          then:
+            - goto: final
+
+final:
+  - text: Thank you for your order!
+  - stop: true
+"""
+
+# demo() runs non-interactively with preset directions and
+# is intended for demonstrating only. See the usage
+# documentation for implementation guidance.
+
+demo(
+    script,
+    directions={
+        "cake": "",
+        "which_cake": "Battenberg",
+        "tea": "",
+    },
+)
+```
+
+<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+
+```text
+[1mCake?[22m (Y/n)
+: [3m[23m
+
+[1mWhich cake?[22m
+: [3mBattenberg[23m
+
+[1mTea?[22m (Y/n)
+: [3m[23m
+
+Thank you for your order!
+
+Stop reason: True
+Responses:
+{
+  "cake": "",
+  "tea": "",
+  "which_cake": "Battenberg"
+}
+```
+
+<!--edition-exec range=end-->
+
 ## Usage
 
 ### Loaders
 
-Asking will load your script from a file or as a package resource.
+Asking offers the following options for loading a YAML script:
 
-To load from a YAML file, create a `FileLoader`. To load from a package resource, create a `YamlResourceLoader`.
+- `DictionaryLoader` loads any Python dictionary.
+- `FileLoader` loads a YAML file.
+- `YamlResourceLoader` loads a YAML package resource.
+- `YamlStringLoader` loads a YAML string.
 
 ### States
 
@@ -252,7 +538,7 @@ from asking import ask, State, YamlResourceLoader
 
 responses = {}
 
-loader = YamlResourceLoader(__package__, "setup.asking.yml")
+loader = YamlResourceLoader(__package__, "sample.asking.yml")
 state = State(responses)
 
 stop_reason = ask(loader, state)
@@ -260,13 +546,81 @@ stop_reason = ask(loader, state)
 
 When `ask()` is complete, it will return whatever value the performance's "stop" action returned, and the responses dictionary will be populated with the user's answers.
 
-### Unit testing
+### Running non-interactively and unit testing
 
 By default, Asking will -- naturally -- ask users for input.
 
 To test your script without human interaction, you can pass directions into the state. This is a dictionary containing the value to respond with for each question key.
 
-Note that this is a flat dictionary, so keys should contain periods and not sub dictionaries.
+For example:
+
+```python
+from asking import ask, State, FileLoader
+from pprint import pprint
+
+
+responses = {}
+
+loader = FileLoader("sample.asking.yml")
+state = State(
+    responses,
+    color=False,
+    directions={
+        "ready": "y",
+        "user": {
+            "name": "Bobby Pringles",
+            "smell": "Sulphur",
+        },
+        "save": "y",
+    },
+)
+
+stop_reason = ask(loader, state)
+
+print("Stop reason:", stop_reason)
+pprint(responses)
+```
+
+<!--edition-exec as=markdown fence=backticks host=shell range=start-->
+
+```text
+[4;1mAsking Demo[24;22m
+
+Welcome to the Asking demo!
+
+[1mAre you ready?[22m (y/N)
+: [3my[23m
+
+Great! Let's get started!
+
+[1mWhat's your name?[22m
+: [3mBobby Pringles[23m
+
+[1mWhat's your favourite smell?[22m
+: [3mSulphur[23m
+
+Here's your configuration:
+
+{
+  "ready": "y",
+  "user": {
+    "name": "Bobby Pringles",
+    "smell": "Sulphur"
+  }
+}
+
+[1mOkay to save?[22m (y/n)
+: [3my[23m
+
+Stop reason: True
+{'ready': 'y',
+ 'save': 'y',
+ 'user': {'name': 'Bobby Pringles', 'smell': 'Sulphur'}}
+```
+
+<!--edition-exec range=end-->
+
+These directions also allow you to invoke Asking in unit tests, and assert on stop reasons and dictionary values for given inputs.
 
 ## Actions
 
@@ -361,4 +715,5 @@ Please consider supporting my open source projects by [sponsoring me on GitHub](
 
 - ❤️ to [jonathaneunice/ansiwrap](https://github.com/jonathaneunice/ansiwrap) for neatly wrapping strings containing ANSI escape codes.
 - Command line support by [Cline](https://github.com/cariad/cline).
+- YAML support by [PyYAML](https://pyyaml.org/).
 - This documentation was pressed by [Edition](https://github.com/cariad/edition).
