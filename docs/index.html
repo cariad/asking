@@ -41,6 +41,7 @@ h3,
 h4,
 h5,
 h6,
+img,
 ol,
 p,
 ul {
@@ -137,6 +138,18 @@ blockquote {
   padding-left: 1rem;
 }
 
+img,
+a > code,
+h2 > code,
+h3 > code,
+h4 > code,
+h5 > code,
+h6 > code,
+li > code,
+p > code {
+  border-radius: 0.3em;
+}
+
 a > code,
 h2 > code,
 h3 > code,
@@ -146,7 +159,6 @@ h6 > code,
 li > code,
 p > code {
   background: var(--accent);
-  border-radius: 0.3em;
 
   letter-spacing: 0.04em;
 
@@ -345,7 +357,7 @@ h2, h3, h4, h5, h6 {
     <article>
         <h1>🙋 Asking</h1>
 <p><strong>Asking</strong> is a Python package for asking questions and getting answers.</p>
-<p><a href="https://asciinema.org/a/452525"><img alt="asciicast" src="https://asciinema.org/a/452525.svg"></a></p>
+<p><a href="https://asciinema.org/a/452525"><img alt="asciicast" src="https://asciinema.org/a/452525.png"></a></p>
 <p><nav class="toc"><ol><li><a href="#getting-started">Getting started</a><ol><li><a href="#how-does-asking-work">How does Asking work?</a></li><li><a href="#installation">Installation</a></li><li><a href="#quick-start-example">Quick-start example</a></li></ol></li><li><a href="#scripts">Scripts</a><ol><li><a href="#script-structure">Script structure</a></li><li><a href="#asking-for-a-value">Asking for a value</a></li><li><a href="#offering-the-previous-value-as-the-default">Offering the previous value as the default</a></li><li><a href="#offering-multiple-choice-responses">Offering multiple choice responses</a></li><li><a href="#offering-multiple-choice-responses-with-a-default">Offering multiple choice responses with a default</a></li><li><a href="#dynamic-values">Dynamic values</a></li><li><a href="#multiple-stages">Multiple stages</a></li></ol></li><li><a href="#usage">Usage</a><ol><li><a href="#loaders">Loaders</a></li><li><a href="#states">States</a></li><li><a href="#performing-a-script">Performing a script</a></li><li><a href="#running-non-interactively-and-unit-testing">Running non-interactively and unit testing</a></li></ol></li><li><a href="#actions">Actions</a><ol><li><a href="#ask">ask</a></li><li><a href="#goto">goto</a></li><li><a href="#responses">responses</a></li><li><a href="#stop">stop</a></li><li><a href="#text">text</a></li><li><a href="#title">title</a></li></ol></li><li><a href="#project">Project</a><ol><li><a href="#contributing">Contributing</a></li><li><a href="#licence">Licence</a></li><li><a href="#author">Author</a></li><li><a href="#acknowledgements">Acknowledgements</a></li></ol></li></ol></nav></p>
 <h2>Getting started<a id="getting-started"></a></h2>
 <h3>How does Asking work?<a id="how-does-asking-work"></a></h3>

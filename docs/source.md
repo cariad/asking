@@ -8,7 +8,7 @@ title: Asking
 
 **Asking** is a Python package for asking questions and getting answers.
 
-[![asciicast](https://asciinema.org/a/452525.svg)](https://asciinema.org/a/452525)
+[![asciicast](https://asciinema.org/a/452525.png)](https://asciinema.org/a/452525)
 
 <edition value="toc" hi="2" />
 
