@@ -17,7 +17,7 @@ types-pyyaml = "~=6.0"
 yamllint = "*"
 
 [packages]
-ansiscape = "~=1.1.1"
+ansiscape = "~=1.1.2"
 ansiwrap = "~=0.8"
 cline = "~=1.1"
 pyyaml = "~=6.0"
