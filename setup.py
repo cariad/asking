@@ -41,6 +41,7 @@ setup(
     },
     include_package_data=True,
     install_requires=[
+        "ansiscape~=1.0.0",
         "ansiwrap~=0.8",
         "cline~=1.1",
         "pyyaml~=6.0",

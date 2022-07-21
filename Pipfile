@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [dev-packages]
-black = "==21.11b1"
+black = "~=22.6.0"
 edition = "==1.0.0a14"
 flake8 = "*"
 isort = "*"
@@ -17,6 +17,7 @@ types-pyyaml = "~=6.0"
 yamllint = "*"
 
 [packages]
+ansiscape = "~=1.1.0"
 ansiwrap = "~=0.8"
 cline = "~=1.1"
 pyyaml = "~=6.0"
